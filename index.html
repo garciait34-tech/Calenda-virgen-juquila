@@ -1,16 +1,13 @@
 
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Virgen de Juquila</title>
 
 <style>
-
-/* CONFIGURACIÓN GENERAL */
-
 * {
     box-sizing: border-box;
     margin: 0;
@@ -28,7 +25,6 @@ body {
 }
 
 /* PORTADA */
-
 #portada {
     position: fixed;
     inset: 0;
@@ -39,6 +35,8 @@ body {
     background: #000;
     cursor: pointer;
     overflow: hidden;
+    opacity: 1;
+    transform: scale(1);
     transition: opacity 1s ease, transform 1s ease;
 }
 
@@ -55,8 +53,7 @@ body {
     pointer-events: none;
 }
 
-/* ANIMACIÓN GIRASOLES */
-
+/* GIRASOLES */
 #animacionGirasoles {
     position: absolute;
     inset: 0;
@@ -66,11 +63,11 @@ body {
 }
 
 .girasol-trazo {
-   fill: none;
+    fill: none;
     stroke-linecap: round;
     stroke-linejoin: round;
-    stroke-dasharray: 1600;
-    stroke-dashoffset: 1600;
+    stroke-dasharray: 1800;
+    stroke-dashoffset: 1800;
     animation: dibujar 2.8s ease forwards;
 }
 
@@ -80,19 +77,14 @@ body {
 }
 
 @keyframes dibujar {
-    to {
-        stroke-dashoffset: 0;
-    }
+    to { stroke-dashoffset: 0; }
 }
 
 @keyframes aparecer {
-    to {
-        opacity: 1;
-    }
+    to { opacity: 1; }
 }
 
 /* CONTENIDO */
-
 #contenido {
     position: relative;
     width: 100%;
@@ -107,7 +99,6 @@ body {
 }
 
 /* IMÁGENES */
-
 .seccion {
     position: relative;
     width: 100%;
@@ -122,8 +113,7 @@ body {
     height: auto;
 }
 
-/* UBICACIÓN GOOGLE MAPS */
-
+/* GOOGLE MAPS */
 #seccionDetalles {
     position: relative;
 }
@@ -133,14 +123,11 @@ body {
     top: 74%;
     left: 58%;
     transform: translate(-50%, -50%);
-
     width: 65%;
     height: 18%;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     color: #f5dc83;
     font-family: Georgia, serif;
     font-size: clamp(13px, 2.5vw, 25px);
@@ -148,12 +135,11 @@ body {
     text-align: center;
     text-decoration: none;
     letter-spacing: 1px;
-
+    line-height: 1.3;
     z-index: 30;
 }
 
 /* CRONÓMETRO */
-
 #seccionCronometro {
     position: relative;
 }
@@ -218,7 +204,6 @@ body {
 }
 
 /* CRÉDITOS */
-
 .creditos {
     width: 100%;
     text-align: center;
@@ -247,7 +232,6 @@ body {
 }
 
 /* BOTÓN MÚSICA */
-
 #botonMusica {
     position: fixed;
     right: 15px;
@@ -259,13 +243,12 @@ body {
     background: #80602c;
     color: white;
     font-size: 20px;
-    z-index: 4000;
+    z-index: 6000;
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(0,0,0,.3);
 }
 
 /* PÉTALOS BLANCOS */
-
 #petalos {
     position: fixed;
     inset: 0;
@@ -292,11 +275,9 @@ body {
         transform: translateY(-40px) rotate(0deg);
         opacity: 0;
     }
-
     10%, 90% {
         opacity: .9;
     }
-
     100% {
         transform: translateY(110vh) rotate(500deg);
         opacity: 0;
@@ -304,9 +285,7 @@ body {
 }
 
 /* CELULARES */
-
 @media(max-width:600px) {
-
     .cronometro {
         width: 94%;
         padding: 12px 7px;
@@ -326,78 +305,65 @@ body {
         right: 12px;
         bottom: 12px;
     }
-}
 
+    #zonaMapa {
+        font-size: clamp(11px, 3vw, 17px);
+        width: 68%;
+    }
+}
 </style>
 </head>
 
 <body>
 
 <!-- PORTADA INICIAL -->
-
-<div id="portada" onclick="abrirInvitacion()">
-
+<div id="portada" onclick="abrirInvitacion()" role="button">
     <img src="inicio.jpg" alt="Portada de la Calenda">
 
     <svg id="animacionGirasoles"
          viewBox="0 0 1000 1000"
          preserveAspectRatio="xMidYMid meet">
     </svg>
-
 </div>
 
 <!-- MÚSICA -->
-
 <audio id="musica" loop preload="auto">
     <source src="musica.mp3" type="audio/mpeg">
 </audio>
 
-<button id="botonMusica" onclick="toggleMusica(event)">
+<button id="botonMusica" type="button" onclick="toggleMusica(event)">
     ♫
 </button>
 
 <!-- PÉTALOS -->
-
 <div id="petalos"></div>
 
 <!-- INVITACIÓN -->
-
 <main id="contenido">
 
-    <!-- IMAGEN CONTEXTO -->
-
+    <!-- IMAGEN DE CONTEXTO -->
     <section class="seccion">
-
-        <img src="contexto.jpg"
-             alt="Invitación y madrinas de la Calenda">
-
+        <img src="contexto.jpg" alt="Invitación y madrinas de la Calenda">
     </section>
 
-    <!-- IMAGEN DETALLES -->
-
+    <!-- DETALLES Y UBICACIÓN -->
     <section class="seccion" id="seccionDetalles">
 
-        <img src="detalles.jpg"
-             alt="Detalles de la celebración">
-
-        <!-- ENLACE GOOGLE MAPS -->
+        <img src="detalles.jpg" alt="Detalles de la celebración">
 
         <a id="zonaMapa"
-           <a id="zonaMapa"
-   href="https://maps.app.goo.gl/kqMWNPBSazHsArkt8"
-   target="_blank"
-   rel="noopener noreferrer">
-   VER UBICACIÓN EN GOOGLE MAPS
-</a>
+           href="https://maps.app.goo.gl/kqMWNPBSazHsArkt8"
+           target="_blank"
+           rel="noopener noreferrer">
+            VER UBICACIÓN EN GOOGLE MAPS
+        </a>
 
     </section>
 
-    <!-- IMAGEN CRONÓMETRO -->
-
+    <!-- CRONÓMETRO -->
     <section class="seccion" id="seccionCronometro">
 
-        <img src="cronometro.jpg"
-             alt="Cuenta regresiva para la celebración">
+        <img src="cronometro.jpg" alt="Cuenta regresiva">
 
         <div class="cronometro">
 
@@ -430,13 +396,10 @@ body {
                 </div>
 
             </div>
-
         </div>
-
     </section>
 
     <!-- CRÉDITOS -->
-
     <footer class="creditos">
 
         <p>INVITACIÓN CREADA POR</p>
@@ -462,7 +425,7 @@ body {
 
 let invitacionAbierta = false;
 
-/* ABRIR INVITACIÓN Y HACER TRANSICIÓN */  let invitacionAbierta = false;  function abrirInvitacion() {      if (invitacionAbierta) return;      invitacionAbierta = true;      const musica = document.getElementById("musica");     const portada = document.getElementById("portada");     const contenido = document.getElementById("contenido");      // INICIAR MÚSICA     musica.currentTime = 0;     musica.volume = 1;      musica.play().catch(function() {         console.log("No se pudo iniciar la música");     });      // DIBUJAR GIRASOLES     try {         iniciarGirasoles();     } catch(error) {         console.error("Error en los girasoles:", error);     }      // ESPERAR ANIMACIÓN     setTimeout(function() {          // DESVANECER PORTADA         portada.classList.add("oculta");          // MOSTRAR INVITACIÓN         setTimeout(function() {              contenido.classList.add("visible");              crearPetalos();              window.scrollTo({                 top: 0,                 behavior: "smooth"             });          }, 700);          // RETIRAR PORTADA         setTimeout(function() {             portada.style.display = "none";         }, 1100);      }, 6500);  } {
+function abrirInvitacion() {
 
     if (invitacionAbierta) return;
 
@@ -475,16 +438,70 @@ let invitacionAbierta = false;
     musica.currentTime = 0;
     musica.volume = 1;
 
-    musica.play().catch(function() {
-        console.log("No se pudo iniciar la música.");
+    musica.play().then(function() {
+        document.getElementById("botonMusica").textContent = "♫";
+    }).catch(function(error) {
+        console.log("El navegador no pudo iniciar la música:", error);
     });
 
- function iniciarGirasoles() {
+    iniciarGirasoles();
 
-   
+    setTimeout(function() {
+
+        portada.classList.add("oculta");
+
+        setTimeout(function() {
+
+            contenido.classList.add("visible");
+
+            crearPetalos();
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        }, 700);
+
+        setTimeout(function() {
+            portada.style.display = "none";
+        }, 1100);
+
+    }, 6500);
+}
+
+/* BOTÓN DE MÚSICA */
+
+function toggleMusica(event) {
+
+    event.stopPropagation();
+
+    const musica = document.getElementById("musica");
+    const boton = document.getElementById("botonMusica");
+
+    if (musica.paused) {
+
+        musica.play().then(function() {
+            boton.textContent = "♫";
+        }).catch(function(error) {
+            console.log("No se pudo reproducir la música:", error);
+        });
+
+    } else {
+
+        musica.pause();
+        boton.textContent = "♪";
+
+    }
+}
+
+/* GIRASOLES GRANDES */
+
+function iniciarGirasoles() {
+
     const svg = document.getElementById("animacionGirasoles");
 
-    if (svg.dataset.iniciado) return;
+    if (!svg || svg.dataset.iniciado === "si") return;
 
     svg.dataset.iniciado = "si";
 
@@ -504,8 +521,6 @@ let invitacionAbierta = false;
         svg.appendChild(elemento);
     }
 
-    /* TRES GIRASOLES GRANDES */
-
     const flores = [
         { x: 170, y: 290, escala: 1.35 },
         { x: 500, y: 230, escala: 1.55 },
@@ -517,15 +532,12 @@ let invitacionAbierta = false;
         const x = flor.x;
         const y = flor.y;
         const escala = flor.escala;
-        const retraso = indice * .4;
+        const retraso = indice * 0.4;
 
-        /* TALLO QUE NACE DESDE ABAJO */
+        /* TALLO DESDE ABAJO */
 
         crearElemento("path", {
-            d: `M ${x} 1050
-                C ${x-35} 850,
-                  ${x+35} 650,
-                  ${x} ${y+65}`,
+            d: `M ${x} 1050 C ${x-35} 850, ${x+35} 650, ${x} ${y+65}`,
             stroke: "#228B22",
             "stroke-width": 18 * escala
         }, "girasol-trazo", retraso);
@@ -533,13 +545,9 @@ let invitacionAbierta = false;
         /* HOJA IZQUIERDA */
 
         crearElemento("path", {
-            d: `M ${x} 760
-                Q ${x-100} 660 ${x-145} 735
-                Q ${x-110} 830 ${x} 760 Z`,
+            d: `M ${x} 760 Q ${x-100} 660 ${x-145} 735 Q ${x-110} 830 ${x} 760 Z`,
             fill: "#228B22"
         }, "girasol-relleno", retraso + 1.5);
-
-        /* NERVADURA IZQUIERDA */
 
         crearElemento("path", {
             d: `M ${x} 760 Q ${x-75} 735 ${x-125} 735`,
@@ -550,13 +558,9 @@ let invitacionAbierta = false;
         /* HOJA DERECHA */
 
         crearElemento("path", {
-            d: `M ${x} 600
-                Q ${x+100} 490 ${x+145} 570
-                Q ${x+110} 670 ${x} 600 Z`,
+            d: `M ${x} 600 Q ${x+100} 490 ${x+145} 570 Q ${x+110} 670 ${x} 600 Z`,
             fill: "#228B22"
         }, "girasol-relleno", retraso + 1.9);
-
-        /* NERVADURA DERECHA */
 
         crearElemento("path", {
             d: `M ${x} 600 Q ${x+80} 585 ${x+125} 570`,
@@ -582,7 +586,7 @@ let invitacionAbierta = false;
                 stroke: "#E6B800",
                 "stroke-width": 2,
                 transform: `rotate(${angulo * 180 / Math.PI} ${px} ${py})`
-            }, "girasol-relleno", retraso + 2.5 + i * .08);
+            }, "girasol-relleno", retraso + 2.5 + i * 0.08);
 
         }
 
@@ -603,142 +607,6 @@ let invitacionAbierta = false;
         }, "girasol-relleno", retraso + 4.2);
 
     });
-
-}
-
-/* BOTÓN MÚSICA */
-
-function toggleMusica(event) {
-
-    event.stopPropagation();
-
-    const musica = document.getElementById("musica");
-    const boton = document.getElementById("botonMusica");
-
-    if (musica.paused) {
-
-        musica.play().then(function() {
-            boton.textContent = "♫";
-        }).catch(function() {
-            console.log("No se pudo reproducir la música.");
-        });
-
-    } else {
-
-        musica.pause();
-        boton.textContent = "♪";
-
-    }
-}
-
-/* GIRASOLES ANIMADOS */
-
-function iniciarGirasoles() {
-
-    const svg = document.getElementById("animacionGirasoles");
-
-    if (svg.dataset.iniciado) return;
-
-    svg.dataset.iniciado = "si";
-
-    const NS = "http://www.w3.org/2000/svg";
-
-    function crearElemento(tipo, atributos, clase, retraso) {
-
-        const elemento = document.createElementNS(NS, tipo);
-
-        Object.entries(atributos).forEach(function([nombre, valor]) {
-            elemento.setAttribute(nombre, valor);
-        });
-
-        elemento.setAttribute("class", clase);
-        elemento.style.animationDelay = retraso + "s";
-
-        svg.appendChild(elemento);
-    }
-
-    const flores = [
-        { x: 200, y: 350, escala: 1 },
-        { x: 500, y: 300, escala: 1.05 },
-        { x: 800, y: 350, escala: 1 }
-    ];
-
-    flores.forEach(function(flor, indice) {
-
-        const x = flor.x;
-        const y = flor.y;
-        const escala = flor.escala;
-        const retrasoFlor = indice * .45;
-
-        /* TALLO */
-
-        crearElemento("path", {
-            d: `M ${x} 900 Q ${x-12} 650 ${x} ${y+30}`,
-            stroke: "#228B22",
-            "stroke-width": 13 * escala
-        }, "girasol-trazo", retrasoFlor);
-
-        /* HOJAS */
-
-        crearElemento("path", {
-            d: `M ${x} 700 Q ${x-90} 620 ${x-110} 690 Q ${x-75} 755 ${x} 700 Z`,
-            fill: "#228B22"
-        }, "girasol-relleno", retrasoFlor + 1.4);
-
-        crearElemento("path", {
-            d: `M ${x} 700 Q ${x-60} 680 ${x-95} 690`,
-            stroke: "#145214",
-            "stroke-width": 3
-        }, "girasol-trazo", retrasoFlor + 1.5);
-
-        crearElemento("path", {
-            d: `M ${x} 610 Q ${x+85} 530 ${x+110} 590 Q ${x+90} 655 ${x} 610 Z`,
-            fill: "#228B22"
-        }, "girasol-relleno", retrasoFlor + 1.8);
-
-        crearElemento("path", {
-            d: `M ${x} 610 Q ${x+60} 600 ${x+95} 590`,
-            stroke: "#145214",
-            "stroke-width": 3
-        }, "girasol-trazo", retrasoFlor + 1.9);
-
-        /* PÉTALOS */
-
-        for (let i = 0; i < 12; i++) {
-
-            const angulo = (Math.PI * 2 * i) / 12;
-
-            const px = x + Math.cos(angulo) * 62 * escala;
-            const py = y + Math.sin(angulo) * 62 * escala;
-
-            crearElemento("ellipse", {
-                cx: px,
-                cy: py,
-                rx: 36 * escala,
-                ry: 12 * escala,
-                fill: "#FFD700",
-                transform: `rotate(${angulo * 180 / Math.PI} ${px} ${py})`
-            }, "girasol-relleno", retrasoFlor + 2.1 + i * .12);
-
-        }
-
-        /* CENTRO */
-
-        crearElemento("circle", {
-            cx: x,
-            cy: y,
-            r: 45 * escala,
-            fill: "#8B4513"
-        }, "girasol-relleno", retrasoFlor + 4);
-
-        crearElemento("circle", {
-            cx: x,
-            cy: y,
-            r: 25 * escala,
-            fill: "#654321"
-        }, "girasol-relleno", retrasoFlor + 4.2);
-
-    });
 }
 
 /* PÉTALOS BLANCOS */
@@ -747,7 +615,7 @@ function crearPetalos() {
 
     const contenedor = document.getElementById("petalos");
 
-    if (contenedor.dataset.creados) return;
+    if (!contenedor || contenedor.dataset.creados === "si") return;
 
     contenedor.dataset.creados = "si";
 
@@ -766,10 +634,10 @@ function crearPetalos() {
             (Math.random() * 8) + "s";
 
         petalo.style.opacity =
-            .4 + Math.random() * .5;
+            0.4 + Math.random() * 0.5;
 
         petalo.style.transform =
-            `scale(${.5 + Math.random()})`;
+            `scale(${0.5 + Math.random()})`;
 
         contenedor.appendChild(petalo);
 
