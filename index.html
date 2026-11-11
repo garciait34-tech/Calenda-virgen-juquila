@@ -1,392 +1,437 @@
 <!DOCTYPE html>
-<html lang="es-MX">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Calenda Virgen de Juquila</title>
+<title>Calenda en honor a la Virgen de Juquila</title>
 
 <style>
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
 body {
-  background: #000;
-  font-family: Arial, sans-serif;
+  background: #fffaf8;
+  font-family: Georgia, serif;
   overflow-x: hidden;
+  text-align: center;
 }
 
-/* PANTALLA DE INICIO */
-
-#pantallaInicio {
-  position: fixed;
-  inset: 0;
-  z-index: 10;
-  background: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: opacity 1.2s ease;
-  cursor: pointer;
-}
-
-#pantallaInicio img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-#pantallaInicio.ocultar {
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* TRANSICIÓN Y FLORES */
-
-#transicion {
-  position: fixed;
-  inset: 0;
-  z-index: 9;
-  background: #fff;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
-
-#transicion.activa {
-  display: flex;
-}
-
-.flor {
-  position: absolute;
-  top: -50px;
-  font-size: 25px;
-  animation: caer linear forwards;
-}
-
-@keyframes caer {
-  0% {
-    transform: translateY(-10vh) rotate(0deg);
-    opacity: 0;
-  }
-
-  15% {
-    opacity: 1;
-  }
-
-  100% {
-    transform: translateY(110vh) rotate(360deg);
-    opacity: 0;
-  }
-}
-
-/* PORTADA */
-
-#pantallaPortada {
+section {
   display: none;
   width: 100%;
   min-height: 100vh;
-  background: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+section.active {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-#pantallaPortada img {
+/* IMÁGENES */
+.invitation-image {
+  display: block;
   width: 100%;
   height: auto;
-  display: block;
+  max-height: 92vh;
+  object-fit: contain;
 }
 
-#pantallaPortada.visible {
-  display: block;
+#inicio {
+  cursor: pointer;
+  background: #fffaf8;
 }
 
-/* CONTEXTO */
-
-#pantallaContexto {
-  display: none;
-  background: #fff;
+#inicio img {
   width: 100%;
+  height: 100vh;
+  object-fit: contain;
 }
 
-#pantallaContexto.visible {
-  display: block;
+/* PORTADA */
+#portada {
+  background: #fffaf8;
 }
 
-#imagenContexto {
+#portada img {
   width: 100%;
-  height: auto;
-  display: block;
+  max-height: 95vh;
+  object-fit: contain;
+  position: relative;
+  z-index: 1;
 }
 
-/* CRONÓMETRO */
-
-.seccionCronometro {
-  background: #fff;
-  color: #333;
-  text-align: center;
-  padding: 25px 10px;
+/* FLORES ANIMADAS */
+.flower {
+  position: absolute;
+  width: 95px;
+  height: 95px;
+  z-index: 2;
+  pointer-events: none;
+  animation: flowerAppear 2s ease-out both;
 }
 
-.seccionCronometro h3 {
-  margin-bottom: 20px;
+.flower.one { top: 8%; left: 5%; }
+.flower.two { top: 15%; right: 5%; animation-delay: .4s; }
+.flower.three { bottom: 12%; left: 8%; animation-delay: .7s; }
+.flower.four { bottom: 8%; right: 8%; animation-delay: 1s; }
+
+.flower .petals {
+  position: absolute;
+  inset: 0;
+  animation: flowerRotate 15s linear infinite;
 }
 
-#cronometro {
+.flower .petal {
+  position: absolute;
+  width: 24px;
+  height: 42px;
+  left: 35px;
+  top: 5px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.78);
+  border: 1px solid rgba(255,255,255,.9);
+  transform-origin: 12px 42px;
+}
+
+.flower .petal:nth-child(1) { transform: rotate(0deg); }
+.flower .petal:nth-child(2) { transform: rotate(45deg); }
+.flower .petal:nth-child(3) { transform: rotate(90deg); }
+.flower .petal:nth-child(4) { transform: rotate(135deg); }
+.flower .petal:nth-child(5) { transform: rotate(180deg); }
+.flower .petal:nth-child(6) { transform: rotate(225deg); }
+.flower .petal:nth-child(7) { transform: rotate(270deg); }
+.flower .petal:nth-child(8) { transform: rotate(315deg); }
+
+.flower .center {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  background: rgba(255,255,255,.95);
+  border-radius: 50%;
+  top: 37px;
+  left: 37px;
+}
+
+@keyframes flowerAppear {
+  from {
+    opacity: 0;
+    transform: scale(.1) rotate(-90deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+
+@keyframes flowerRotate {
+  to { transform: rotate(360deg); }
+}
+
+/* CONTEXTO Y DETALLES */
+#contexto, #detalles {
+  background: #fffaf8;
+  padding: 10px;
+}
+
+/* UBICACIÓN */
+.map-button {
+  position: absolute;
+  right: 8%;
+  bottom: 12%;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.9);
+  border: 2px solid #b99b76;
   display: flex;
   justify-content: center;
-  gap: 8px;
+  align-items: center;
+  text-decoration: none;
+  font-size: 28px;
+  z-index: 5;
+  box-shadow: 0 3px 12px #0002;
+}
+
+/* CUENTA REGRESIVA */
+#cuenta {
+  background: #fffaf8;
+  padding: 35px 15px;
+  min-height: 260px;
+  color: #765b48;
+}
+
+#cuenta h2 {
+  font-size: 25px;
+  margin-bottom: 25px;
+}
+
+.timer {
+  display: flex;
+  justify-content: center;
   flex-wrap: wrap;
+  gap: 12px;
 }
 
-.cajaTiempo {
-  background: #222;
-  color: #fff;
-  border-radius: 8px;
-  padding: 12px 8px;
-  min-width: 72px;
+.time-box {
+  background: #f1e5dc;
+  border-radius: 12px;
+  padding: 15px 12px;
+  min-width: 70px;
 }
 
-.cajaTiempo span {
+.time-box span {
   display: block;
   font-size: 27px;
   font-weight: bold;
 }
 
-.cajaTiempo small {
+.time-box small {
   font-size: 12px;
 }
 
-.pie {
-  padding: 20px;
-  text-align: center;
-  color: #777;
-  background: #fff;
+/* CRÉDITOS */
+footer {
+  background: #fffaf8;
+  color: #8b7465;
+  padding: 20px 10px 30px;
   font-size: 13px;
+  line-height: 1.8;
 }
 
+footer strong {
+  letter-spacing: 2px;
+}
+
+footer a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* PÉTALOS BLANCOS CAYENDO */
+.falling-petal {
+  position: fixed;
+  top: -30px;
+  z-index: 10;
+  pointer-events: none;
+  color: rgba(255,255,255,.88);
+  text-shadow: 0 1px 4px rgba(150,130,130,.2);
+  animation: fall linear forwards;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-30px) rotate(0deg);
+    opacity: 0;
+  }
+  10% { opacity: .9; }
+  100% {
+    transform: translateY(110vh) rotate(600deg);
+    opacity: 0;
+  }
+}
+
+#transicion {
+  background: #fffaf8;
+}
+
+.transition-message {
+  color: #b99b76;
+  font-size: 20px;
+  padding: 20px;
+}
 </style>
 </head>
 
 <body>
 
-<!-- MÚSICA -->
-
 <audio id="musica" src="musica.mp3" loop preload="auto"></audio>
 
-<!-- 1. IMAGEN DE INICIO -->
+<!-- INICIO -->
+<section id="inicio" class="active" onclick="comenzar()">
+  <img src="inicio.jpg" alt="Toca para abrir la invitación">
+</section>
 
-<div id="pantallaInicio" onclick="abrirInvitacion()">
-  <img src="inicio.jpg" alt="Inicio de la invitación">
-</div>
+<!-- TRANSICIÓN -->
+<section id="transicion">
+  <p class="transition-message">Con mucho cariño te invitamos...</p>
+</section>
 
-<!-- 2. TRANSICIÓN CON FLORES -->
-
-<div id="transicion"></div>
-
-<!-- 3. PORTADA -->
-
-<div id="pantallaPortada">
+<!-- PORTADA -->
+<section id="portada">
   <img src="portada.jpg" alt="Portada de la invitación">
-</div>
 
-<!-- 4. CONTEXTO Y DETALLES -->
-
-<div id="pantallaContexto">
-
-  <img
-    id="imagenContexto"
-    src="contexto.jpg"
-    alt="Información y detalles de la calenda"
-  >
-
-  <!-- CRONÓMETRO DEBAJO DE CONTEXTO -->
-
-  <div class="seccionCronometro">
-
-    <h3>⏳ Tiempo restante para el evento</h3>
-
-    <div id="cronometro">
-
-      <div class="cajaTiempo">
-        <span id="dias">00</span>
-        <small>Días</small>
-      </div>
-
-      <div class="cajaTiempo">
-        <span id="horas">00</span>
-        <small>Horas</small>
-      </div>
-
-      <div class="cajaTiempo">
-        <span id="minutos">00</span>
-        <small>Minutos</small>
-      </div>
-
-      <div class="cajaTiempo">
-        <span id="segundos">00</span>
-        <small>Segundos</small>
-      </div>
-
+  <div class="flower one">
+    <div class="petals">
+      <div class="petal"></div><div class="petal"></div>
+      <div class="petal"></div><div class="petal"></div>
+      <div class="petal"></div><div class="petal"></div>
+      <div class="petal"></div><div class="petal"></div>
     </div>
-
+    <div class="center"></div>
   </div>
 
-  <div class="pie">
-    Invitación digital diseñada por Moon Grafik
+  <div class="flower two">
+    <div class="petals">
+      <div class="petal"></div><div class="petal"></div>
+      <div class="petal"></div><div class="petal"></div>
+      <div class="petal"></div><div class="petal"></div>
+      <div class="petal"></div><div class="petal"></div>
+    </div>
+    <div class="center"></div>
   </div>
 
-</div>
+  <div class="flower three">
+    <div class="petals">
+      <div class="petal"></div><div class="petal"></div>
+      <div class="petal"></div><div class="petal"></div>
+      <div class="petal"></div><div class="petal"></div>
+      <div class="petal"></div><div class="petal"></div>
+    </div>
+    <div class="center"></div>
+  </div>
+
+  <div class="flower four">
+    <div class="petals">
+      <div class="petal"></div><div class="petal"></div>
+      <div class="petal"></div><div class="petal"></div>
+      <div class="petal"></div><div class="petal"></div>
+      <div class="petal"></div><div class="petal"></div>
+    </div>
+    <div class="center"></div>
+  </div>
+</section>
+
+<!-- CONTEXTO -->
+<section id="contexto">
+  <img class="invitation-image" src="contexto.jpg" alt="Contexto de la invitación">
+</section>
+
+<!-- DETALLES -->
+<section id="detalles">
+  <img class="invitation-image" src="detalles.jpg" alt="Detalles del evento">
+
+  <a class="map-button"
+     href="https://maps.app.goo.gl/xJDNd16UtWiGmRZm9?g_st=ac"
+     target="_blank"
+     rel="noopener"
+     aria-label="Abrir ubicación en Google Maps">📍</a>
+</section>
+
+<!-- CUENTA REGRESIVA -->
+<section id="cuenta">
+  <h2>¡Te esperamos!</h2>
+
+  <div class="timer">
+    <div class="time-box">
+      <span id="dias">0</span>
+      <small>DÍAS</small>
+    </div>
+    <div class="time-box">
+      <span id="horas">0</span>
+      <small>HORAS</small>
+    </div>
+    <div class="time-box">
+      <span id="minutos">0</span>
+      <small>MINUTOS</small>
+    </div>
+    <div class="time-box">
+      <span id="segundos">0</span>
+      <small>SEGUNDOS</small>
+    </div>
+  </div>
+</section>
+
+<!-- CRÉDITOS -->
+<footer>
+  Invitación creada por<br>
+  <strong>MOON GRAFIK</strong><br>
+  <a href="tel:4426070366">442 607 0366</a>
+</footer>
 
 <script>
-
-/* ELEMENTOS */
-
-const audio = document.getElementById("musica");
-const inicio = document.getElementById("pantallaInicio");
-const transicion = document.getElementById("transicion");
-const portada = document.getElementById("pantallaPortada");
-const contexto = document.getElementById("pantallaContexto");
-
-let abierta = false;
-
-/* ABRIR INVITACIÓN */
-
-function abrirInvitacion() {
-
-  if (abierta) return;
-  abierta = true;
-
-  audio.play().catch(error => {
-    console.log("El navegador requiere interacción para reproducir audio.");
+function mostrarSeccion(id) {
+  document.querySelectorAll("section").forEach(section => {
+    section.classList.remove("active");
   });
 
-  inicio.classList.add("ocultar");
-
-  setTimeout(() => {
-
-    inicio.style.display = "none";
-    transicion.classList.add("activa");
-
-    iniciarFlores();
-
-  }, 1200);
-
-  /* DESPUÉS DE LA TRANSICIÓN APARECE LA PORTADA */
-
-  setTimeout(() => {
-
-    transicion.classList.remove("activa");
-    transicion.innerHTML = "";
-
-    portada.classList.add("visible");
-
-  }, 9000);
-
-  /* DESPUÉS DE LA PORTADA APARECE CONTEXTO */
-
-  setTimeout(() => {
-
-    portada.classList.remove("visible");
-    contexto.classList.add("visible");
-
-  }, 14000);
-
+  document.getElementById(id).classList.add("active");
+  window.scrollTo(0, 0);
 }
 
-/* FLORES CAYENDO */
+function crearPetalos() {
+  const petal = document.createElement("div");
+  petal.className = "falling-petal";
+  petal.textContent = "✿";
+  petal.style.left = Math.random() * 100 + "vw";
+  petal.style.fontSize = (12 + Math.random() * 18) + "px";
+  petal.style.animationDuration = (4 + Math.random() * 4) + "s";
 
-function iniciarFlores() {
+  document.body.appendChild(petal);
 
-  const flores = ["🌸", "🌺", "🌼", "🌷"];
-
-  const intervalo = setInterval(() => {
-
-    if (!transicion.classList.contains("activa")) {
-      clearInterval(intervalo);
-      return;
-    }
-
-    const flor = document.createElement("div");
-
-    flor.className = "flor";
-
-    flor.textContent =
-      flores[Math.floor(Math.random() * flores.length)];
-
-    flor.style.left = Math.random() * 100 + "%";
-
-    flor.style.animationDuration =
-      (3 + Math.random() * 3) + "s";
-
-    transicion.appendChild(flor);
-
-    setTimeout(() => {
-      flor.remove();
-    }, 6500);
-
-  }, 180);
-
+  setTimeout(() => petal.remove(), 8500);
 }
 
-/* CRONÓMETRO */
+let lluviaIniciada = false;
 
-const fechaEvento =
-  new Date("2026-11-27T18:00:00-06:00").getTime();
+function iniciarLluvia() {
+  if (lluviaIniciada) return;
+  lluviaIniciada = true;
 
-function actualizarCronometro() {
+  setInterval(crearPetalos, 350);
+}
 
+function comenzar() {
+  const musica = document.getElementById("musica");
+  musica.play().catch(() => {});
+
+  mostrarSeccion("transicion");
+  iniciarLluvia();
+
+  setTimeout(() => {
+    mostrarSeccion("portada");
+  }, 2500);
+}
+
+/* CUENTA REGRESIVA:
+   27 de noviembre de 2026, 6:00 PM, hora de Querétaro */
+const fechaEvento = new Date("2026-11-27T18:00:00-06:00").getTime();
+
+function actualizarCuenta() {
   const ahora = Date.now();
   const diferencia = fechaEvento - ahora;
 
   if (diferencia <= 0) {
-
-    document.getElementById("cronometro").innerHTML =
-      "¡El evento ya comenzó!";
-
+    document.getElementById("dias").textContent = "0";
+    document.getElementById("horas").textContent = "0";
+    document.getElementById("minutos").textContent = "0";
+    document.getElementById("segundos").textContent = "0";
     return;
   }
 
-  const dias = Math.floor(
-    diferencia / (1000 * 60 * 60 * 24)
-  );
-
-  const horas = Math.floor(
-    (diferencia % (1000 * 60 * 60 * 24)) /
-    (1000 * 60 * 60)
-  );
-
-  const minutos = Math.floor(
-    (diferencia % (1000 * 60 * 60)) /
-    (1000 * 60)
-  );
-
-  const segundos = Math.floor(
-    (diferencia % (1000 * 60)) / 1000
-  );
-
   document.getElementById("dias").textContent =
-    String(dias).padStart(2, "0");
+    Math.floor(diferencia / (1000 * 60 * 60 * 24));
 
   document.getElementById("horas").textContent =
-    String(horas).padStart(2, "0");
+    Math.floor((diferencia / (1000 * 60 * 60)) % 24);
 
   document.getElementById("minutos").textContent =
-    String(minutos).padStart(2, "0");
+    Math.floor((diferencia / (1000 * 60)) % 60);
 
   document.getElementById("segundos").textContent =
-    String(segundos).padStart(2, "0");
-
+    Math.floor((diferencia / 1000) % 60);
 }
 
-actualizarCronometro();
-setInterval(actualizarCronometro, 1000);
-
+actualizarCuenta();
+setInterval(actualizarCuenta, 1000);
 </script>
 
 </body>
 </html>
+
