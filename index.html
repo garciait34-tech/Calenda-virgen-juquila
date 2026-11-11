@@ -7,411 +7,490 @@
 
 <style>
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: #fffaf8;
+  background: #fffaf2;
   font-family: Georgia, serif;
   overflow-x: hidden;
-  text-align: center;
 }
 
-section {
-  display: none;
-  width: 100%;
-  min-height: 100vh;
-  position: relative;
-  overflow: hidden;
-}
-
-section.active {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-/* IMÁGENES */
-.invitation-image {
-  display: block;
-  width: 100%;
-  height: auto;
-  max-height: 92vh;
-  object-fit: contain;
-}
-
+/* IMAGEN DE ENTRADA */
 #inicio {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: #000;
   cursor: pointer;
-  background: #fffaf8;
+  transition: opacity 1s ease, transform 1s ease;
 }
 
 #inicio img {
   width: 100%;
-  height: 100vh;
-  object-fit: contain;
+  height: 100%;
+  object-fit: cover;
 }
 
-/* PORTADA */
-#portada {
-  background: #fffaf8;
-}
-
-#portada img {
-  width: 100%;
-  max-height: 95vh;
-  object-fit: contain;
-  position: relative;
-  z-index: 1;
-}
-
-/* FLORES ANIMADAS */
-.flower {
-  position: absolute;
-  width: 95px;
-  height: 95px;
-  z-index: 2;
+#inicio.oculta {
+  opacity: 0;
+  transform: scale(1.05);
   pointer-events: none;
-  animation: flowerAppear 2s ease-out both;
 }
 
-.flower.one { top: 8%; left: 5%; }
-.flower.two { top: 15%; right: 5%; animation-delay: .4s; }
-.flower.three { bottom: 12%; left: 8%; animation-delay: .7s; }
-.flower.four { bottom: 8%; right: 8%; animation-delay: 1s; }
+/* PORTADA Y GIRASOLES */
+#portada {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: #000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1s ease;
+  overflow: hidden;
+}
 
-.flower .petals {
+#portada.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+#portada > img {
   position: absolute;
   inset: 0;
-  animation: flowerRotate 15s linear infinite;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.flower .petal {
+#animacionGirasoles {
   position: absolute;
-  width: 24px;
-  height: 42px;
-  left: 35px;
-  top: 5px;
-  border-radius: 50%;
-  background: rgba(255,255,255,.78);
-  border: 1px solid rgba(255,255,255,.9);
-  transform-origin: 12px 42px;
-}
-
-.flower .petal:nth-child(1) { transform: rotate(0deg); }
-.flower .petal:nth-child(2) { transform: rotate(45deg); }
-.flower .petal:nth-child(3) { transform: rotate(90deg); }
-.flower .petal:nth-child(4) { transform: rotate(135deg); }
-.flower .petal:nth-child(5) { transform: rotate(180deg); }
-.flower .petal:nth-child(6) { transform: rotate(225deg); }
-.flower .petal:nth-child(7) { transform: rotate(270deg); }
-.flower .petal:nth-child(8) { transform: rotate(315deg); }
-
-.flower .center {
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  background: rgba(255,255,255,.95);
-  border-radius: 50%;
-  top: 37px;
-  left: 37px;
-}
-
-@keyframes flowerAppear {
-  from {
-    opacity: 0;
-    transform: scale(.1) rotate(-90deg);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) rotate(0);
-  }
-}
-
-@keyframes flowerRotate {
-  to { transform: rotate(360deg); }
-}
-
-/* CONTEXTO Y DETALLES */
-#contexto, #detalles {
-  background: #fffaf8;
-  padding: 10px;
-}
-
-/* UBICACIÓN */
-.map-button {
-  position: absolute;
-  right: 8%;
-  bottom: 12%;
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  background: rgba(255,255,255,.9);
-  border: 2px solid #b99b76;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-decoration: none;
-  font-size: 28px;
-  z-index: 5;
-  box-shadow: 0 3px 12px #0002;
-}
-
-/* CUENTA REGRESIVA */
-#cuenta {
-  background: #fffaf8;
-  padding: 35px 15px;
-  min-height: 260px;
-  color: #765b48;
-}
-
-#cuenta h2 {
-  font-size: 25px;
-  margin-bottom: 25px;
-}
-
-.timer {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.time-box {
-  background: #f1e5dc;
-  border-radius: 12px;
-  padding: 15px 12px;
-  min-width: 70px;
-}
-
-.time-box span {
-  display: block;
-  font-size: 27px;
-  font-weight: bold;
-}
-
-.time-box small {
-  font-size: 12px;
-}
-
-/* CRÉDITOS */
-footer {
-  background: #fffaf8;
-  color: #8b7465;
-  padding: 20px 10px 30px;
-  font-size: 13px;
-  line-height: 1.8;
-}
-
-footer strong {
-  letter-spacing: 2px;
-}
-
-footer a {
-  color: inherit;
-  text-decoration: none;
-}
-
-/* PÉTALOS BLANCOS CAYENDO */
-.falling-petal {
-  position: fixed;
-  top: -30px;
-  z-index: 10;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
-  color: rgba(255,255,255,.88);
-  text-shadow: 0 1px 4px rgba(150,130,130,.2);
-  animation: fall linear forwards;
 }
 
-@keyframes fall {
+#animacionGirasoles .trazo {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: dibujar 2s ease forwards;
+}
+
+#animacionGirasoles .relleno {
+  opacity: 0;
+  animation: aparecer .7s ease forwards;
+}
+
+@keyframes dibujar {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes aparecer {
+  to { opacity: 1; }
+}
+
+/* CONTENIDO */
+#contenido {
+  opacity: 0;
+  transform: translateY(25px);
+  transition: opacity 1.2s ease, transform 1.2s ease;
+  visibility: hidden;
+}
+
+#contenido.visible {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+}
+
+.seccion {
+  width: 100%;
+  position: relative;
+  line-height: 0;
+}
+
+.seccion img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* PÉTALOS BLANCOS */
+#petalos {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.petalo {
+  position: absolute;
+  top: -30px;
+  width: 12px;
+  height: 18px;
+  background: rgba(255,255,255,.78);
+  border-radius: 80% 20% 80% 20%;
+  animation: caer linear infinite;
+  filter: blur(.2px);
+}
+
+@keyframes caer {
   0% {
     transform: translateY(-30px) rotate(0deg);
     opacity: 0;
   }
   10% { opacity: .9; }
   100% {
-    transform: translateY(110vh) rotate(600deg);
+    transform: translateY(110vh) rotate(500deg);
     opacity: 0;
   }
 }
 
-#transicion {
-  background: #fffaf8;
+/* MÚSICA */
+#botonMusica {
+  position: fixed;
+  right: 16px;
+  bottom: 18px;
+  z-index: 7000;
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 50%;
+  background: #80602c;
+  color: white;
+  font-size: 21px;
+  cursor: pointer;
+  box-shadow: 0 3px 12px #0004;
 }
 
-.transition-message {
-  color: #b99b76;
-  font-size: 20px;
-  padding: 20px;
+/* CONTADOR */
+#contador {
+  width: 100%;
+  padding: 35px 12px;
+  text-align: center;
+  background: #fff7e8;
+  color: #735127;
+  line-height: normal;
+}
+
+#contador h2 {
+  font-size: clamp(22px, 5vw, 34px);
+  margin-bottom: 22px;
+}
+
+.reloj {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.tiempo {
+  min-width: 65px;
+  padding: 13px 9px;
+  background: #8d6b36;
+  color: white;
+  border-radius: 10px;
+}
+
+.tiempo strong {
+  display: block;
+  font-size: clamp(22px, 5vw, 32px);
+}
+
+.tiempo span {
+  font-size: 12px;
+}
+
+/* MAPA: AJUSTAR POSICIÓN CUANDO VEAMOS detalles.jpg */
+#zonaMapa {
+  position: absolute;
+  left: 50%;
+  top: 80%;
+  width: 18%;
+  height: 13%;
+  transform: translate(-50%, -50%);
+  display: block;
+  z-index: 2;
+}
+
+/* PIE */
+footer {
+  padding: 28px 12px;
+  text-align: center;
+  line-height: 1.6;
+  color: #735127;
+  background: #fff7e8;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+}
+
+footer strong {
+  display: block;
+  letter-spacing: 3px;
+  font-size: 19px;
+}
+
+footer a {
+  color: inherit;
+  text-decoration: none;
 }
 </style>
 </head>
 
 <body>
 
-<audio id="musica" src="musica.mp3" loop preload="auto"></audio>
-
-<!-- INICIO -->
-<section id="inicio" class="active" onclick="comenzar()">
+<!-- IMAGEN PARA ENTRAR -->
+<div id="inicio" onclick="abrirInvitacion()">
   <img src="inicio.jpg" alt="Toca para abrir la invitación">
-</section>
+</div>
 
-<!-- TRANSICIÓN -->
-<section id="transicion">
-  <p class="transition-message">Con mucho cariño te invitamos...</p>
-</section>
+<!-- PORTADA CON GIRASOLES -->
+<div id="portada">
+  <img src="portada.jpg" alt="Portada de la calenda">
+  <svg id="animacionGirasoles" viewBox="0 0 1000 1000"
+       preserveAspectRatio="xMidYMid meet"></svg>
+</div>
 
-<!-- PORTADA -->
-<section id="portada">
-  <img src="portada.jpg" alt="Portada de la invitación">
+<!-- CONTENIDO DE LA INVITACIÓN -->
+<main id="contenido">
 
-  <div class="flower one">
-    <div class="petals">
-      <div class="petal"></div><div class="petal"></div>
-      <div class="petal"></div><div class="petal"></div>
-      <div class="petal"></div><div class="petal"></div>
-      <div class="petal"></div><div class="petal"></div>
+  <section class="seccion">
+    <img src="contexto.jpg" alt="Invitación a la calenda">
+  </section>
+
+  <section class="seccion" id="seccionDetalles">
+    <img src="detalles.jpg" alt="Detalles de la celebración">
+    <a id="zonaMapa"
+       href="https://goo.gl/maps/825JtysoS72kmZEv5?g_st=ac"
+       target="_blank"
+       rel="noopener"
+       aria-label="Abrir ubicación en Google Maps"></a>
+  </section>
+
+  <section id="contador">
+    <h2>¡Falta muy poco para nuestra celebración!</h2>
+    <div class="reloj">
+      <div class="tiempo">
+        <strong id="dias">00</strong>
+        <span>DÍAS</span>
+      </div>
+      <div class="tiempo">
+        <strong id="horas">00</strong>
+        <span>HORAS</span>
+      </div>
+      <div class="tiempo">
+        <strong id="minutos">00</strong>
+        <span>MINUTOS</span>
+      </div>
+      <div class="tiempo">
+        <strong id="segundos">00</strong>
+        <span>SEGUNDOS</span>
+      </div>
     </div>
-    <div class="center"></div>
-  </div>
+  </section>
 
-  <div class="flower two">
-    <div class="petals">
-      <div class="petal"></div><div class="petal"></div>
-      <div class="petal"></div><div class="petal"></div>
-      <div class="petal"></div><div class="petal"></div>
-      <div class="petal"></div><div class="petal"></div>
-    </div>
-    <div class="center"></div>
-  </div>
+  <footer>
+    INVITACIÓN CREADA POR
+    <strong>MOON GRAFIK</strong>
+    <a href="https://wa.me/524426070366" target="_blank" rel="noopener">
+      WhatsApp: 44 26 07 03 66
+    </a>
+  </footer>
 
-  <div class="flower three">
-    <div class="petals">
-      <div class="petal"></div><div class="petal"></div>
-      <div class="petal"></div><div class="petal"></div>
-      <div class="petal"></div><div class="petal"></div>
-      <div class="petal"></div><div class="petal"></div>
-    </div>
-    <div class="center"></div>
-  </div>
+</main>
 
-  <div class="flower four">
-    <div class="petals">
-      <div class="petal"></div><div class="petal"></div>
-      <div class="petal"></div><div class="petal"></div>
-      <div class="petal"></div><div class="petal"></div>
-      <div class="petal"></div><div class="petal"></div>
-    </div>
-    <div class="center"></div>
-  </div>
-</section>
+<!-- PÉTALOS -->
+<div id="petalos"></div>
 
-<!-- CONTEXTO -->
-<section id="contexto">
-  <img class="invitation-image" src="contexto.jpg" alt="Contexto de la invitación">
-</section>
-
-<!-- DETALLES -->
-<section id="detalles">
-  <img class="invitation-image" src="detalles.jpg" alt="Detalles del evento">
-
-  <a class="map-button"
-     href="https://maps.app.goo.gl/xJDNd16UtWiGmRZm9?g_st=ac"
-     target="_blank"
-     rel="noopener"
-     aria-label="Abrir ubicación en Google Maps">📍</a>
-</section>
-
-<!-- CUENTA REGRESIVA -->
-<section id="cuenta">
-  <h2>¡Te esperamos!</h2>
-
-  <div class="timer">
-    <div class="time-box">
-      <span id="dias">0</span>
-      <small>DÍAS</small>
-    </div>
-    <div class="time-box">
-      <span id="horas">0</span>
-      <small>HORAS</small>
-    </div>
-    <div class="time-box">
-      <span id="minutos">0</span>
-      <small>MINUTOS</small>
-    </div>
-    <div class="time-box">
-      <span id="segundos">0</span>
-      <small>SEGUNDOS</small>
-    </div>
-  </div>
-</section>
-
-<!-- CRÉDITOS -->
-<footer>
-  Invitación creada por<br>
-  <strong>MOON GRAFIK</strong><br>
-  <a href="tel:4426070366">442 607 0366</a>
-</footer>
+<!-- MÚSICA -->
+<audio id="musica" src="musica.mp3" loop preload="auto"></audio>
+<button id="botonMusica" onclick="toggleMusica(event)" aria-label="Pausar o reproducir música">♫</button>
 
 <script>
-function mostrarSeccion(id) {
-  document.querySelectorAll("section").forEach(section => {
-    section.classList.remove("active");
-  });
+/* ABRIR INVITACIÓN */
+let abierta = false;
 
-  document.getElementById(id).classList.add("active");
-  window.scrollTo(0, 0);
-}
+function abrirInvitacion() {
+  if (abierta) return;
+  abierta = true;
 
-function crearPetalos() {
-  const petal = document.createElement("div");
-  petal.className = "falling-petal";
-  petal.textContent = "✿";
-  petal.style.left = Math.random() * 100 + "vw";
-  petal.style.fontSize = (12 + Math.random() * 18) + "px";
-  petal.style.animationDuration = (4 + Math.random() * 4) + "s";
-
-  document.body.appendChild(petal);
-
-  setTimeout(() => petal.remove(), 8500);
-}
-
-let lluviaIniciada = false;
-
-function iniciarLluvia() {
-  if (lluviaIniciada) return;
-  lluviaIniciada = true;
-
-  setInterval(crearPetalos, 350);
-}
-
-function comenzar() {
+  const inicio = document.getElementById("inicio");
+  const portada = document.getElementById("portada");
   const musica = document.getElementById("musica");
-  musica.play().catch(() => {});
 
-  mostrarSeccion("transicion");
-  iniciarLluvia();
+  musica.play().then(() => {
+    document.getElementById("botonMusica").textContent = "♫";
+  }).catch(() => {});
+
+  inicio.classList.add("oculta");
 
   setTimeout(() => {
-    mostrarSeccion("portada");
-  }, 2500);
+    inicio.style.display = "none";
+    portada.classList.add("visible");
+    iniciarGirasoles();
+  }, 900);
+
+  setTimeout(() => {
+    portada.classList.remove("visible");
+    document.getElementById("contenido").classList.add("visible");
+    crearPetalos();
+    window.scrollTo(0, 0);
+  }, 6500);
 }
 
-/* CUENTA REGRESIVA:
-   27 de noviembre de 2026, 6:00 PM, hora de Querétaro */
-const fechaEvento = new Date("2026-11-27T18:00:00-06:00").getTime();
+/* MÚSICA */
+function toggleMusica(event) {
+  event.stopPropagation();
+  const musica = document.getElementById("musica");
+  const boton = document.getElementById("botonMusica");
 
-function actualizarCuenta() {
+  if (musica.paused) {
+    musica.play();
+    boton.textContent = "♫";
+  } else {
+    musica.pause();
+    boton.textContent = "♪";
+  }
+}
+
+/* CREAR GIRASOLES ANIMADOS */
+function iniciarGirasoles() {
+  const svg = document.getElementById("animacionGirasoles");
+  if (svg.dataset.iniciado) return;
+  svg.dataset.iniciado = "si";
+
+  const NS = "http://www.w3.org/2000/svg";
+
+  function elemento(tipo, atributos, clase, retraso) {
+    const el = document.createElementNS(NS, tipo);
+    Object.entries(atributos).forEach(([k,v]) => {
+      el.setAttribute(k, v);
+    });
+    if (clase) el.setAttribute("class", clase);
+    if (retraso !== undefined) {
+      el.style.animationDelay = retraso + "s";
+    }
+    svg.appendChild(el);
+    return el;
+  }
+
+  const flores = [
+    {x:200, y:350, escala:1},
+    {x:500, y:300, escala:1.05},
+    {x:800, y:350, escala:1}
+  ];
+
+  flores.forEach((flor, indice) => {
+    const x = flor.x;
+    const y = flor.y;
+    const escala = flor.escala;
+    const inicio = indice * .7;
+
+    /* TALLO */
+    elemento("path", {
+      d:`M ${x} 900 Q ${x-12} 650 ${x} ${y+30}`,
+      stroke:"#228B22",
+      "stroke-width":13 * escala,
+      fill:"none"
+    }, "trazo", inicio);
+
+    /* HOJAS */
+    elemento("path", {
+      d:`M ${x} 700 Q ${x-90} 620 ${x-110} 690 Q ${x-75} 755 ${x} 700 Z`,
+      fill:"#228B22"
+    }, "relleno", inicio + 1.1);
+
+    elemento("path", {
+      d:`M ${x} 700 Q ${x-60} 680 ${x-95} 690`,
+      stroke:"#145214",
+      "stroke-width":3,
+      fill:"none"
+    }, "trazo", inicio + 1.2);
+
+    elemento("path", {
+      d:`M ${x} 610 Q ${x+85} 530 ${x+110} 590 Q ${x+90} 655 ${x} 610 Z`,
+      fill:"#228B22"
+    }, "relleno", inicio + 1.4);
+
+    elemento("path", {
+      d:`M ${x} 610 Q ${x+60} 600 ${x+95} 590`,
+      stroke:"#145214",
+      "stroke-width":3,
+      fill:"none"
+    }, "trazo", inicio + 1.5);
+
+    /* PÉTALOS */
+    for (let i=0; i<12; i++) {
+      const angulo = (Math.PI * 2 * i) / 12;
+      const px = x + Math.cos(angulo) * 62 * escala;
+      const py = y + Math.sin(angulo) * 62 * escala;
+
+      const petalo = elemento("ellipse", {
+        cx:px,
+        cy:py,
+        rx:36 * escala,
+        ry:12 * escala,
+        fill:"#FFD700",
+        transform:`rotate(${angulo * 180 / Math.PI} ${px} ${py})`
+      }, "relleno", inicio + 2 + i * .12);
+
+      petalo.style.transformBox = "fill-box";
+      petalo.style.transformOrigin = "center";
+    }
+
+    /* CENTRO CAFÉ */
+    elemento("circle", {
+      cx:x, cy:y, r:45 * escala, fill:"#8B4513"
+    }, "relleno", inicio + 3.7);
+
+    elemento("circle", {
+      cx:x, cy:y, r:25 * escala, fill:"#654321"
+    }, "relleno", inicio + 4);
+  });
+}
+
+/* PÉTALOS BLANCOS CAYENDO */
+function crearPetalos() {
+  const contenedor = document.getElementById("petalos");
+  if (contenedor.dataset.creados) return;
+  contenedor.dataset.creados = "si";
+
+  for (let i=0; i<28; i++) {
+    const petalo = document.createElement("div");
+    petalo.className = "petalo";
+    petalo.style.left = Math.random() * 100 + "%";
+    petalo.style.animationDuration = (6 + Math.random() * 8) + "s";
+    petalo.style.animationDelay = (Math.random() * 8) + "s";
+    petalo.style.opacity = .4 + Math.random() * .5;
+    petalo.style.transform = `scale(${.5 + Math.random()})`;
+    contenedor.appendChild(petalo);
+  }
+}
+
+/* CUENTA REGRESIVA: 27 NOVIEMBRE 2026, 18:00 */
+const fechaEvento = new Date(2026, 10, 27, 18, 0, 0).getTime();
+
+function actualizarContador() {
   const ahora = Date.now();
   const diferencia = fechaEvento - ahora;
 
   if (diferencia <= 0) {
-    document.getElementById("dias").textContent = "0";
-    document.getElementById("horas").textContent = "0";
-    document.getElementById("minutos").textContent = "0";
-    document.getElementById("segundos").textContent = "0";
+    document.getElementById("dias").textContent = "00";
+    document.getElementById("horas").textContent = "00";
+    document.getElementById("minutos").textContent = "00";
+    document.getElementById("segundos").textContent = "00";
     return;
   }
 
@@ -428,10 +507,9 @@ function actualizarCuenta() {
     Math.floor((diferencia / 1000) % 60);
 }
 
-actualizarCuenta();
-setInterval(actualizarCuenta, 1000);
+actualizarContador();
+setInterval(actualizarContador, 1000);
 </script>
 
 </body>
 </html>
-
