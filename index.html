@@ -1,31 +1,72 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calenda en honor a la Virgen de Juquila</title>
+<title>VIRGEN DE JUQUILA</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+
+/* =====================================================
+   CONFIGURACIÓN GENERAL
+===================================================== */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
-html {
-    scroll-behavior: smooth;
+html{
+    scroll-behavior:smooth;
 }
 
-body {
-    background: #fffaf2;
-    font-family: Arial, Helvetica, sans-serif;
-    overflow-x: hidden;
+body{
+    margin:0;
+    padding:0;
+    background:#06182d;
+    font-family:Arial, Helvetica, sans-serif;
+    overflow-x:hidden;
 }
 
-/* PORTADA Y TRANSICIÓN */
 
-#portada {
+/* =====================================================
+  INICIO
+===================================================== */
+
+#inicio{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100vh;
+    z-index:5000;
+    background:#000;
+    cursor:pointer;
+
+    transition:
+        opacity 1s ease,
+        transform 1s ease;
+}
+
+#inicio jpg{
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+#inicio.oculta{
+    opacity:0;
+    transform:scale(1.05);
+    pointer-events:none;
+}
+
+
+/* inicio Y TRANSICIÓN */
+
+#inicio {
     position: fixed;
     inset: 0;
     width: 100%;
@@ -38,14 +79,14 @@ body {
     transition: opacity 1s ease, transform 1s ease;
 }
 
-#portada > img {
+#inicio > jpg {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-#portada.oculta {
+#inicio.oculta {
     opacity: 0;
     transform: scale(1.05);
     pointer-events: none;
@@ -126,7 +167,10 @@ body {
 }
 
 /* ENLACE DE GOOGLE MAPS */
-
+<p><a href="AQUI_TU_ENLACE"
+target="_black">https://maps.app.goo.gl/kqMWNPBSazHsArkt8</a></p>       
+</body>
+</html>
 #zonaMapa {
     position: absolute;
     top: 80%;
@@ -705,7 +749,4 @@ setInterval(actualizarContador, 1000);
 
 </body>
 </html>
-<p><a href="AQUI_TU_ENLACE"
-target="_black">https://maps.app.goo.gl/kqMWNPBSazHsArkt8</a></p>       
-</body>
-</html>
+
