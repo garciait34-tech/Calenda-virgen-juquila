@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Calenda Virgen de Juquila</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #000;
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+/* PANTALLA DE INICIO */
+
+#pantallaInicio {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 1.2s ease;
+  cursor: pointer;
+}
+
+#pantallaInicio img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+#pantallaInicio.ocultar {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* TRANSICIÓN Y FLORES */
+
+#transicion {
+  position: fixed;
+  inset: 0;
+  z-index: 9;
+  background: #fff;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+#transicion.activa {
+  display: flex;
+}
+
+.flor {
+  position: absolute;
+  top: -50px;
+  font-size: 25px;
+  animation: caer linear forwards;
+}
+
+@keyframes caer {
+  0% {
+    transform: translateY(-10vh) rotate(0deg);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(110vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* PORTADA */
+
+#pantallaPortada {
+  display: none;
+  width: 100%;
+  min-height: 100vh;
+  background: #fff;
+  justify-content: center;
+  align-items: center;
+}
+
+#pantallaPortada img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+#pantallaPortada.visible {
+  display: block;
+}
+
+/* CONTEXTO */
+
+#pantallaContexto {
+  display: none;
+  background: #fff;
+  width: 100%;
+}
+
+#pantallaContexto.visible {
+  display: block;
+}
+
+#imagenContexto {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* CRONÓMETRO */
+
+.seccionCronometro {
+  background: #fff;
+  color: #333;
+  text-align: center;
+  padding: 25px 10px;
+}
+
+.seccionCronometro h3 {
+  margin-bottom: 20px;
+}
+
+#cronometro {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cajaTiempo {
+  background: #222;
+  color: #fff;
+  border-radius: 8px;
+  padding: 12px 8px;
+  min-width: 72px;
+}
+
+.cajaTiempo span {
+  display: block;
+  font-size: 27px;
+  font-weight: bold;
+}
+
+.cajaTiempo small {
+  font-size: 12px;
+}
+
+.pie {
+  padding: 20px;
+  text-align: center;
+  color: #777;
+  background: #fff;
+  font-size: 13px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- MÚSICA -->
+
+<audio id="musica" src="musica.mp3" loop preload="auto"></audio>
+
+<!-- 1. IMAGEN DE INICIO -->
+
+<div id="pantallaInicio" onclick="abrirInvitacion()">
+  <img src="inicio.jpg" alt="Inicio de la invitación">
+</div>
+
+<!-- 2. TRANSICIÓN CON FLORES -->
+
+<div id="transicion"></div>
+
+<!-- 3. PORTADA -->
+
+<div id="pantallaPortada">
+  <img src="portada.jpg" alt="Portada de la invitación">
+</div>
+
+<!-- 4. CONTEXTO Y DETALLES -->
+
+<div id="pantallaContexto">
+
+  <img
+    id="imagenContexto"
+    src="contexto.jpg"
+    alt="Información y detalles de la calenda"
+  >
+
+  <!-- CRONÓMETRO DEBAJO DE CONTEXTO -->
+
+  <div class="seccionCronometro">
+
+    <h3>⏳ Tiempo restante para el evento</h3>
+
+    <div id="cronometro">
+
+      <div class="cajaTiempo">
+        <span id="dias">00</span>
+        <small>Días</small>
+      </div>
+
+      <div class="cajaTiempo">
+        <span id="horas">00</span>
+        <small>Horas</small>
+      </div>
+
+      <div class="cajaTiempo">
+        <span id="minutos">00</span>
+        <small>Minutos</small>
+      </div>
+
+      <div class="cajaTiempo">
+        <span id="segundos">00</span>
+        <small>Segundos</small>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="pie">
+    Invitación digital diseñada por Moon Grafik
+  </div>
+
+</div>
+
+<script>
+
+/* ELEMENTOS */
+
+const audio = document.getElementById("musica");
+const inicio = document.getElementById("pantallaInicio");
+const transicion = document.getElementById("transicion");
+const portada = document.getElementById("pantallaPortada");
+const contexto = document.getElementById("pantallaContexto");
+
+let abierta = false;
+
+/* ABRIR INVITACIÓN */
+
+function abrirInvitacion() {
+
+  if (abierta) return;
+  abierta = true;
+
+  audio.play().catch(error => {
+    console.log("El navegador requiere interacción para reproducir audio.");
+  });
+
+  inicio.classList.add("ocultar");
+
+  setTimeout(() => {
+
+    inicio.style.display = "none";
+    transicion.classList.add("activa");
+
+    iniciarFlores();
+
+  }, 1200);
+
+  /* DESPUÉS DE LA TRANSICIÓN APARECE LA PORTADA */
+
+  setTimeout(() => {
+
+    transicion.classList.remove("activa");
+    transicion.innerHTML = "";
+
+    portada.classList.add("visible");
+
+  }, 9000);
+
+  /* DESPUÉS DE LA PORTADA APARECE CONTEXTO */
+
+  setTimeout(() => {
+
+    portada.classList.remove("visible");
+    contexto.classList.add("visible");
+
+  }, 14000);
+
+}
+
+/* FLORES CAYENDO */
+
+function iniciarFlores() {
+
+  const flores = ["🌸", "🌺", "🌼", "🌷"];
+
+  const intervalo = setInterval(() => {
+
+    if (!transicion.classList.contains("activa")) {
+      clearInterval(intervalo);
+      return;
+    }
+
+    const flor = document.createElement("div");
+
+    flor.className = "flor";
+
+    flor.textContent =
+      flores[Math.floor(Math.random() * flores.length)];
+
+    flor.style.left = Math.random() * 100 + "%";
+
+    flor.style.animationDuration =
+      (3 + Math.random() * 3) + "s";
+
+    transicion.appendChild(flor);
+
+    setTimeout(() => {
+      flor.remove();
+    }, 6500);
+
+  }, 180);
+
+}
+
+/* CRONÓMETRO */
+
+const fechaEvento =
+  new Date("2026-11-27T18:00:00-06:00").getTime();
+
+function actualizarCronometro() {
+
+  const ahora = Date.now();
+  const diferencia = fechaEvento - ahora;
+
+  if (diferencia <= 0) {
+
+    document.getElementById("cronometro").innerHTML =
+      "¡El evento ya comenzó!";
+
+    return;
+  }
+
+  const dias = Math.floor(
+    diferencia / (1000 * 60 * 60 * 24)
+  );
+
+  const horas = Math.floor(
+    (diferencia % (1000 * 60 * 60 * 24)) /
+    (1000 * 60 * 60)
+  );
+
+  const minutos = Math.floor(
+    (diferencia % (1000 * 60 * 60)) /
+    (1000 * 60)
+  );
+
+  const segundos = Math.floor(
+    (diferencia % (1000 * 60)) / 1000
+  );
+
+  document.getElementById("dias").textContent =
+    String(dias).padStart(2, "0");
+
+  document.getElementById("horas").textContent =
+    String(horas).padStart(2, "0");
+
+  document.getElementById("minutos").textContent =
+    String(minutos).padStart(2, "0");
+
+  document.getElementById("segundos").textContent =
+    String(segundos).padStart(2, "0");
+
+}
+
+actualizarCronometro();
+setInterval(actualizarCronometro, 1000);
+
+</script>
+
+</body>
+</html>
