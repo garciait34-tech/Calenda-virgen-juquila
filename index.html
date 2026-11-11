@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -58,13 +57,12 @@ body {
 }
 
 #animacionGirasoles {
-   #animacionGirasoles {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 10;
+    z-index: 2;
     overflow: visible;
 }
 
@@ -72,24 +70,12 @@ body {
     fill: none;
     stroke-dasharray: 1200;
     stroke-dashoffset: 1200;
-    animation: dibujarGirasol 2.8s ease forwards;
+    animation: dibujarGirasol 7s ease forwards;
 }
 
 .girasol-relleno {
     opacity: 0;
-    animation: aparecerGirasol 1s ease forwards;
-}
-
-@keyframes dibujarGirasol {
-    to {
-        stroke-dashoffset: 0;
-    }
-}
-
-@keyframes aparecerGirasol {
-    to {
-        opacity: 1;
-    }
+    animation: aparecerGirasol 7s ease forwards;
 }
 
 @keyframes dibujarGirasol {
@@ -667,7 +653,7 @@ function iniciarGirasoles() {
         const x = flor.x;
         const y = flor.y;
         const escala = flor.escala;
-        const retraso = indice * 0.4;
+        const retraso = indice * 3;
 
         // Tallo
 
@@ -727,155 +713,24 @@ function iniciarGirasoles() {
 
         // Centro de la flor
 
-        function iniciarGirasoles() {
-
-    const svg = document.getElementById("animacionGirasoles");
-
-    if (!svg || svg.dataset.iniciado === "si") return;
-
-    svg.dataset.iniciado = "si";
-
-    const NS = "http://www.w3.org/2000/svg";
-
-    const ancho = window.innerWidth;
-    const alto = window.innerHeight;
-
-    svg.setAttribute("viewBox", `0 0 ${ancho} ${alto}`);
-    svg.setAttribute("preserveAspectRatio", "none");
-
-    const escala = Math.min(ancho / 430, 1.25);
-
-    function crearElemento(tipo, atributos, clase, retraso) {
-
-        const elemento = document.createElementNS(NS, tipo);
-
-        Object.entries(atributos).forEach(([nombre, valor]) => {
-            elemento.setAttribute(nombre, valor);
-        });
-
-        elemento.setAttribute("class", clase);
-        elemento.style.animationDelay = retraso + "s";
-
-        svg.appendChild(elemento);
-
-        return elemento;
-    }
-
-    // POSICIÓN DE LOS TRES GIRASOLES
-
-    const flores = [
-        { x: ancho * 0.20, y: alto * 0.36 },
-        { x: ancho * 0.50, y: alto * 0.29 },
-        { x: ancho * 0.80, y: alto * 0.36 }
-    ];
-
-    flores.forEach((flor, indice) => {
-
-        const x = flor.x;
-        const y = flor.y;
-        const s = escala;
-        const retraso = indice * 0.25;
-
-        // TALLO QUE NACE DESDE ABAJO
-
-        crearElemento("path", {
-            d: `M ${x} ${alto + 40}
-                C ${x - 35*s} ${alto * 0.78},
-                  ${x + 30*s} ${alto * 0.60},
-                  ${x} ${y + 55*s}`,
-            stroke: "#258329",
-            "stroke-width": 13*s,
-            "stroke-linecap": "round"
-        }, "girasol-trazo", retraso);
-
-        // HOJA IZQUIERDA
-
-        crearElemento("path", {
-            d: `M ${x} ${alto * 0.80}
-                Q ${x - 65*s} ${alto * 0.70},
-                  ${x - 85*s} ${alto * 0.77}
-                Q ${x - 65*s} ${alto * 0.88},
-                  ${x} ${alto * 0.80} Z`,
-            fill: "#36A23C"
-        }, "girasol-relleno", retraso + 2.2);
-
-        // NERVADURA IZQUIERDA
-
-        crearElemento("path", {
-            d: `M ${x} ${alto * 0.80}
-                Q ${x - 45*s} ${alto * 0.80},
-                  ${x - 75*s} ${alto * 0.78}`,
-            stroke: "#17651D",
-            "stroke-width": 3*s
-        }, "girasol-trazo", retraso + 2.3);
-
-        // HOJA DERECHA
-
-        crearElemento("path", {
-            d: `M ${x} ${alto * 0.66}
-                Q ${x + 65*s} ${alto * 0.55},
-                  ${x + 85*s} ${alto * 0.62}
-                Q ${x + 60*s} ${alto * 0.74},
-                  ${x} ${alto * 0.66} Z`,
-            fill: "#36A23C"
-        }, "girasol-relleno", retraso + 2.5);
-
-        // NERVADURA DERECHA
-
-        crearElemento("path", {
-            d: `M ${x} ${alto * 0.66}
-                Q ${x + 45*s} ${alto * 0.65},
-                  ${x + 75*s} ${alto * 0.63}`,
-            stroke: "#17651D",
-            "stroke-width": 3*s
-        }, "girasol-trazo", retraso + 2.6);
-
-        // PÉTALOS GRANDES
-
-        for (let i = 0; i < 16; i++) {
-
-            const angulo = (Math.PI * 2 * i) / 16;
-
-            const radio = 52*s;
-
-            const px = x + Math.cos(angulo) * radio;
-            const py = y + Math.sin(angulo) * radio;
-
-            crearElemento("ellipse", {
-                cx: px,
-                cy: py,
-                rx: 31*s,
-                ry: 15*s,
-                fill: "#FFD700",
-                stroke: "#E5A900",
-                "stroke-width": 1.5*s,
-                transform:
-                    `rotate(${angulo * 180 / Math.PI} ${px} ${py})`
-            }, "girasol-relleno", retraso + 2.9);
-
-        }
-
-        // CENTRO DEL GIRASOL
+        crearElemento("circle", {
+            cx: x,
+            cy: y,
+            r: 59 * escala,
+            fill: "#8B4513"
+        }, "girasol-relleno", retraso + 4);
 
         crearElemento("circle", {
             cx: x,
             cy: y,
-            r: 43*s,
-            fill: "#92501C",
-            stroke: "#69350F",
-            "stroke-width": 3*s
-        }, "girasol-relleno", retraso + 3.5);
-
-        crearElemento("circle", {
-            cx: x,
-            cy: y,
-            r: 29*s,
-            fill: "#633510"
-        }, "girasol-relleno", retraso + 3.7);
+            r: 34 * escala,
+            fill: "#654321"
+        }, "girasol-relleno", retraso + 4.2);
 
     });
 
 }
+
 
 /* =========================
    PÉTALOS BLANCOS
