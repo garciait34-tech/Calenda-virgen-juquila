@@ -1,72 +1,35 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>VIRGEN DE JUQUILA</title>
+<title>Virgen de Juquila</title>
 
 <style>
 
-/* =====================================================
-   CONFIGURACIÓN GENERAL
-===================================================== */
+/* CONFIGURACIÓN GENERAL */
 
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-html{
-    scroll-behavior:smooth;
+html {
+    scroll-behavior: smooth;
 }
 
-body{
-    margin:0;
-    padding:0;
-    background:#06182d;
-    font-family:Arial, Helvetica, sans-serif;
-    overflow-x:hidden;
+body {
+    background: #06182d;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
 }
 
+/* PORTADA */
 
-/* =====================================================
-  INICIO
-===================================================== */
-
-#inicio{
-    position:fixed;
-    inset:0;
-    width:100%;
-    height:100vh;
-    z-index:5000;
-    background:#000;
-    cursor:pointer;
-
-    transition:
-        opacity 1s ease,
-        transform 1s ease;
-}
-
-#inicio jpg{
-    display:block;
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
-
-#inicio.oculta{
-    opacity:0;
-    transform:scale(1.05);
-    pointer-events:none;
-}
-
-
-/* inicio Y TRANSICIÓN */
-
-#inicio {
+#portada {
     position: fixed;
     inset: 0;
     width: 100%;
@@ -79,20 +42,20 @@ body{
     transition: opacity 1s ease, transform 1s ease;
 }
 
-#inicio > jpg {
+#portada > img {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-#inicio.oculta {
+#portada.oculta {
     opacity: 0;
     transform: scale(1.05);
     pointer-events: none;
 }
 
-/* GIRASOLES */
+/* ANIMACIÓN GIRASOLES */
 
 #animacionGirasoles {
     position: absolute;
@@ -159,18 +122,12 @@ body{
     height: auto;
 }
 
-/* DETALLES */
+/* UBICACIÓN GOOGLE MAPS */
 
 #seccionDetalles {
     position: relative;
-    line-height: normal;
 }
 
-/* ENLACE DE GOOGLE MAPS */
-<p><a href="AQUI_TU_ENLACE"
-target="_black">https://maps.app.goo.gl/kqMWNPBSazHsArkt8</a></p>       
-</body>
-</html>
 #zonaMapa {
     position: absolute;
     top: 80%;
@@ -185,9 +142,13 @@ target="_black">https://maps.app.goo.gl/kqMWNPBSazHsArkt8</a></p>
 
 /* CRONÓMETRO */
 
+#seccionCronometro {
+    position: relative;
+}
+
 .cronometro {
     position: absolute;
-    top: 88%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 92%;
@@ -195,7 +156,7 @@ target="_black">https://maps.app.goo.gl/kqMWNPBSazHsArkt8</a></p>
     padding: 18px 12px;
     text-align: center;
     color: #76572c;
-    background: rgba(255, 247, 232, .88);
+    background: rgba(255, 247, 232, .90);
     border-radius: 14px;
     z-index: 20;
     line-height: normal;
@@ -273,7 +234,7 @@ target="_black">https://maps.app.goo.gl/kqMWNPBSazHsArkt8</a></p>
     font-weight: bold;
 }
 
-/* BOTÓN DE MÚSICA */
+/* BOTÓN MÚSICA */
 
 #botonMusica {
     position: fixed;
@@ -354,6 +315,7 @@ target="_black">https://maps.app.goo.gl/kqMWNPBSazHsArkt8</a></p>
         bottom: 12px;
     }
 }
+
 </style>
 </head>
 
@@ -363,7 +325,7 @@ target="_black">https://maps.app.goo.gl/kqMWNPBSazHsArkt8</a></p>
 
 <div id="portada" onclick="abrirInvitacion()">
 
-    <img src="portada.jpg" alt="Portada de la Calenda">
+    <img src="inicio.jpg" alt="Portada de la Calenda">
 
     <svg id="animacionGirasoles"
          viewBox="0 0 1000 1000"
@@ -390,7 +352,7 @@ target="_black">https://maps.app.goo.gl/kqMWNPBSazHsArkt8</a></p>
 
 <main id="contenido">
 
-    <!-- SEGUNDA IMAGEN -->
+    <!-- IMAGEN CONTEXTO -->
 
     <section class="seccion">
 
@@ -399,14 +361,14 @@ target="_black">https://maps.app.goo.gl/kqMWNPBSazHsArkt8</a></p>
 
     </section>
 
-    <!-- DETALLES -->
+    <!-- IMAGEN DETALLES -->
 
     <section class="seccion" id="seccionDetalles">
 
         <img src="detalles.jpg"
              alt="Detalles de la celebración">
 
-        <!-- BOTÓN INVISIBLE DE GOOGLE MAPS -->
+        <!-- ENLACE GOOGLE MAPS -->
 
         <a id="zonaMapa"
            href="https://maps.app.goo.gl/kqMWNPBSazHsArkt8"
@@ -415,7 +377,14 @@ target="_black">https://maps.app.goo.gl/kqMWNPBSazHsArkt8</a></p>
            aria-label="Abrir ubicación en Google Maps">
         </a>
 
-        <!-- CRONÓMETRO -->
+    </section>
+
+    <!-- IMAGEN CRONÓMETRO -->
+
+    <section class="seccion" id="seccionCronometro">
+
+        <img src="cronometro.jpg"
+             alt="Cuenta regresiva para la celebración">
 
         <div class="cronometro">
 
@@ -494,7 +463,7 @@ function abrirInvitacion() {
     musica.volume = 1;
 
     musica.play().catch(function() {
-        console.log("El navegador no pudo iniciar la música.");
+        console.log("No se pudo iniciar la música.");
     });
 
     iniciarGirasoles();
@@ -523,7 +492,7 @@ function abrirInvitacion() {
     }, 6500);
 }
 
-/* BOTÓN DE MÚSICA */
+/* BOTÓN MÚSICA */
 
 function toggleMusica(event) {
 
@@ -548,7 +517,7 @@ function toggleMusica(event) {
     }
 }
 
-/* DIBUJAR GIRASOLES */
+/* GIRASOLES ANIMADOS */
 
 function iniciarGirasoles() {
 
@@ -639,7 +608,7 @@ function iniciarGirasoles() {
 
         }
 
-        /* CENTRO CAFÉ */
+        /* CENTRO */
 
         crearElemento("circle", {
             cx: x,
@@ -749,4 +718,3 @@ setInterval(actualizarContador, 1000);
 
 </body>
 </html>
-
