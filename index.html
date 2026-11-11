@@ -24,7 +24,10 @@ body {
     overflow-x: hidden;
 }
 
-/* PORTADA */
+/* =========================
+   PORTADA
+========================= */
+
 #portada {
     position: fixed;
     inset: 0;
@@ -54,7 +57,44 @@ body {
     pointer-events: none;
 }
 
-/* CONTENIDO */
+#animacionGirasoles {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+    overflow: visible;
+}
+
+.girasol-trazo {
+    fill: none;
+    stroke-dasharray: 1200;
+    stroke-dashoffset: 1200;
+    animation: dibujarGirasol 3s ease forwards;
+}
+
+.girasol-relleno {
+    opacity: 0;
+    animation: aparecerGirasol 1.2s ease forwards;
+}
+
+@keyframes dibujarGirasol {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes aparecerGirasol {
+    to {
+        opacity: 1;
+    }
+}
+
+/* =========================
+   CONTENIDO
+========================= */
+
 #contenido {
     position: relative;
     width: 100%;
@@ -70,7 +110,10 @@ body {
     transform: translateY(0);
 }
 
-/* IMÁGENES */
+/* =========================
+   IMÁGENES
+========================= */
+
 .seccion {
     position: relative;
     width: 100%;
@@ -85,33 +128,80 @@ body {
     height: auto;
 }
 
-/* GOOGLE MAPS */
+/* =========================
+   GOOGLE MAPS
+========================= */
+
 #seccionDetalles {
     position: relative;
 }
 
 #zonaMapa {
     position: absolute;
-    top: 74%;
-    left: 58%;
+    top: 82%;
+    left: 50%;
     transform: translate(-50%, -50%);
-    width: 65%;
-    height: 18%;
+
+    width: 88%;
+    height: auto;
+    min-height: 125px;
+    padding: 14px 10px;
+
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: #f5dc83;
+
+    background: rgba(0, 0, 0, 0.78);
+    border: 2px solid #d5b66f;
+    border-radius: 18px;
+
+    color: #f5df9b;
     font-family: Georgia, serif;
-    font-size: clamp(13px, 2.5vw, 25px);
-    font-weight: bold;
     text-align: center;
     text-decoration: none;
-    letter-spacing: 1px;
     line-height: 1.3;
+    letter-spacing: 1px;
+
     z-index: 30;
 }
 
-/* CRONÓMETRO */
+/* FLOR ANIMADA */
+
+.flor-animada {
+    display: block;
+    font-size: 55px;
+    line-height: 1.2;
+    transform-origin: bottom center;
+    animation: florMovimiento 1.5s infinite ease-in-out;
+}
+
+@keyframes florMovimiento {
+    0%, 100% {
+        transform: translateY(0) rotate(-8deg);
+    }
+
+    50% {
+        transform: translateY(-12px) rotate(8deg);
+    }
+}
+
+#zonaMapa strong {
+    display: block;
+    font-size: clamp(17px, 4vw, 23px);
+    margin-top: 5px;
+}
+
+.texto-mapa {
+    display: block;
+    font-size: clamp(10px, 2.8vw, 14px);
+    margin-top: 8px;
+}
+
+/* =========================
+   CRONÓMETRO
+========================= */
+
 #seccionCronometro {
     position: relative;
 }
@@ -175,7 +265,10 @@ body {
     letter-spacing: .4px;
 }
 
-/* CRÉDITOS */
+/* =========================
+   CRÉDITOS
+========================= */
+
 .creditos {
     width: 100%;
     text-align: center;
@@ -203,7 +296,10 @@ body {
     font-weight: bold;
 }
 
-/* BOTÓN MÚSICA */
+/* =========================
+   BOTÓN DE MÚSICA
+========================= */
+
 #botonMusica {
     position: fixed;
     right: 15px;
@@ -220,7 +316,10 @@ body {
     box-shadow: 0 4px 12px rgba(0,0,0,.3);
 }
 
-/* PÉTALOS */
+/* =========================
+   PÉTALOS BLANCOS
+========================= */
+
 #petalos {
     position: fixed;
     inset: 0;
@@ -247,17 +346,23 @@ body {
         transform: translateY(-40px) rotate(0deg);
         opacity: 0;
     }
+
     10%, 90% {
         opacity: .9;
     }
+
     100% {
         transform: translateY(110vh) rotate(500deg);
         opacity: 0;
     }
 }
 
-/* CELULARES */
+/* =========================
+   CELULARES
+========================= */
+
 @media(max-width:600px) {
+
     .cronometro {
         width: 94%;
         padding: 12px 7px;
@@ -278,62 +383,26 @@ body {
         bottom: 12px;
     }
 
-   /* BOTÓN DE PUNTO DE REUNIÓN */
-
-#zonaMapa {
-    position: absolute;
-    top: 82%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    width: 85%;
-    height: auto;
-    padding: 15px 10px;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    background: rgba(0, 0, 0, 0.75);
-    border: 2px solid #d5b66f;
-    border-radius: 18px;
-
-    color: #f5df9b;
-    text-decoration: none;
-    text-align: center;
-    z-index: 10;
-}
-
-/* PIN ANIMADO */
-
-.pin-animado {
-    font-size: 48px;
-    display: block;
-    animation: brincarPin 1s infinite ease-in-out;
-}
-
-@keyframes brincarPin {
-    0%, 100% {
-        transform: translateY(0);
+    #zonaMapa {
+        width: 88%;
+        min-height: 115px;
+        padding: 10px 6px;
     }
 
-    50% {
-        transform: translateY(-12px);
+    .flor-animada {
+        font-size: 48px;
     }
 }
 
-#zonaMapa strong {
-    font-size: 21px;
-    margin-top: 5px;
-}
+</style>
+</head>
 
-.texto-mapa {
-    font-size: 12px;
-    margin-top: 8px;
-}
+<body>
 
-<!-- PORTADA -->
+<!-- =========================
+     PORTADA
+========================= -->
+
 <div id="portada" role="button" aria-label="Abrir invitación">
     <img src="inicio.jpg" alt="Portada de la Calenda">
 
@@ -345,57 +414,74 @@ body {
 </div>
 
 <!-- MÚSICA -->
+
 <audio id="musica" loop preload="auto">
     <source src="musica.mp3" type="audio/mpeg">
 </audio>
 
-<button id="botonMusica" type="button"
+<button id="botonMusica"
+        type="button"
         onclick="toggleMusica(event)"
         aria-label="Reproducir o pausar música">
     ♫
 </button>
 
 <!-- PÉTALOS -->
+
 <div id="petalos"></div>
 
-<!-- INVITACIÓN -->
+<!-- =========================
+     INVITACIÓN
+========================= -->
+
 <main id="contenido">
 
     <section class="seccion">
-        <img src="contexto.jpg" alt="Invitación y madrinas de la Calenda">
+        <img src="contexto.jpg"
+             alt="Invitación y madrinas de la Calenda">
     </section>
 
     <!-- DETALLES Y UBICACIÓN -->
-  <section class="seccion" id="seccionDetalles">
 
-    <img src="detalles.jpg" alt="Detalles de la celebración">
+    <section class="seccion" id="seccionDetalles">
 
-    <a id="zonaMapa"
-      <a id="zonaMapa"
-   href="https://maps.app.goo.gl/eKp26fpCn8pC46dM9?g_st=ac"
-   target="_blank"
-   rel="noopener noreferrer">
+        <img src="detalles.jpg"
+             alt="Detalles de la celebración">
 
-    <span class="flor-animada">🌻</span>
+        <a id="zonaMapa"
+           href="https://maps.app.goo.gl/eKp26fpCn8pC46dM9?g_st=ac"
+           target="_blank"
+           rel="noopener noreferrer">
 
-    <strong>PUNTO DE REUNIÓN</strong>
+            <span class="flor-animada">🌻</span>
 
-    <span class="texto-mapa">
-        TOCA ESTA FLOR PARA VER LA UBICACIÓN
-    </span>
+            <strong>PUNTO DE REUNIÓN</strong>
 
-</a>
-</section>
+            <span class="texto-mapa">
+                TOCA ESTA FLOR PARA VER LA UBICACIÓN
+            </span>
+
+        </a>
+
+    </section>
 
     <!-- CRONÓMETRO -->
+
     <section class="seccion" id="seccionCronometro">
+
         <img src="cronometro.jpg" alt="Cuenta regresiva">
 
         <div class="cronometro">
+
             <h2>¡La espera está por terminar!</h2>
-            <p>Nos vemos el 27 de noviembre de 2026 a las 6:00 p. m.</p>
+
+            <p>
+                Nos vemos el 27 de noviembre de 2026
+                a las 6:00 p. m.
+            </p>
 
             <div class="contador">
+
                 <div class="bloque">
                     <span class="numero" id="dias">0</span>
                     <span class="texto">DÍAS</span>
@@ -415,14 +501,20 @@ body {
                     <span class="numero" id="segundos">00</span>
                     <span class="texto">SEGUNDOS</span>
                 </div>
+
             </div>
         </div>
+
     </section>
 
     <!-- CRÉDITOS -->
+
     <footer class="creditos">
+
         <p>INVITACIÓN CREADA POR</p>
+
         <p class="marca">✦ MOON GRAFIK ✦</p>
+
         <p>
             WhatsApp:
             <a href="https://wa.me/524426070366"
@@ -431,18 +523,21 @@ body {
                 44 26 07 03 66
             </a>
         </p>
+
     </footer>
 
 </main>
 
 <script>
-/* =========================================
-   ABRIR INVITACIÓN - TRANSICIÓN CORREGIDA
-========================================= */
+
+/* =========================
+   ABRIR INVITACIÓN
+========================= */
 
 let invitacionAbierta = false;
 
 function abrirInvitacion() {
+
     if (invitacionAbierta) return;
 
     invitacionAbierta = true;
@@ -452,7 +547,8 @@ function abrirInvitacion() {
     const musica = document.getElementById("musica");
     const boton = document.getElementById("botonMusica");
 
-    // La música se intenta reproducir directamente al tocar.
+    // Iniciar música al tocar la portada
+
     musica.currentTime = 0;
     musica.volume = 1;
 
@@ -462,62 +558,78 @@ function abrirInvitacion() {
         console.log("No se pudo iniciar la música:", error);
     });
 
-    // Iniciar los girasoles.
+    // Iniciar girasoles
+
     iniciarGirasoles();
 
-    // Comenzar la transición inmediatamente.
+    // Transición
+
     requestAnimationFrame(() => {
         portada.classList.add("oculta");
         contenido.classList.add("visible");
     });
 
-    // Crear pétalos.
+    // Pétalos
+
     crearPetalos();
 
-    // Retirar la portada después del desvanecimiento.
+    // Retirar portada
+
     setTimeout(() => {
         portada.style.display = "none";
     }, 1300);
+
 }
 
-// Conectar el toque y el clic a la portada.
-document.getElementById("portada").addEventListener("click", abrirInvitacion);
+document.getElementById("portada")
+    .addEventListener("click", abrirInvitacion);
 
-/* =========================================
+
+/* =========================
    BOTÓN DE MÚSICA
-========================================= */
+========================= */
 
 function toggleMusica(event) {
+
     event.stopPropagation();
 
     const musica = document.getElementById("musica");
     const boton = document.getElementById("botonMusica");
 
     if (musica.paused) {
+
         musica.play().then(() => {
             boton.textContent = "♫";
         }).catch(error => {
             console.log("No se pudo reproducir la música:", error);
         });
+
     } else {
+
         musica.pause();
         boton.textContent = "♪";
+
     }
+
 }
 
-/* =========================================
+
+/* =========================
    GIRASOLES GRANDES
-========================================= */
+========================= */
 
 function iniciarGirasoles() {
+
     const svg = document.getElementById("animacionGirasoles");
 
     if (!svg || svg.dataset.iniciado === "si") return;
+
     svg.dataset.iniciado = "si";
 
     const NS = "http://www.w3.org/2000/svg";
 
     function crearElemento(tipo, atributos, clase, retraso) {
+
         const elemento = document.createElementNS(NS, tipo);
 
         Object.entries(atributos).forEach(([nombre, valor]) => {
@@ -526,7 +638,9 @@ function iniciarGirasoles() {
 
         elemento.setAttribute("class", clase);
         elemento.style.animationDelay = retraso + "s";
+
         svg.appendChild(elemento);
+
     }
 
     const flores = [
@@ -536,12 +650,14 @@ function iniciarGirasoles() {
     ];
 
     flores.forEach((flor, indice) => {
+
         const x = flor.x;
         const y = flor.y;
         const escala = flor.escala;
         const retraso = indice * 0.4;
 
         // Tallo
+
         crearElemento("path", {
             d: `M ${x} 1050 C ${x-35} 850, ${x+35} 650, ${x} ${y+65}`,
             stroke: "#228B22",
@@ -549,6 +665,7 @@ function iniciarGirasoles() {
         }, "girasol-trazo", retraso);
 
         // Hoja izquierda
+
         crearElemento("path", {
             d: `M ${x} 760 Q ${x-100} 660 ${x-145} 735 Q ${x-110} 830 ${x} 760 Z`,
             fill: "#228B22"
@@ -561,6 +678,7 @@ function iniciarGirasoles() {
         }, "girasol-trazo", retraso + 1.6);
 
         // Hoja derecha
+
         crearElemento("path", {
             d: `M ${x} 600 Q ${x+100} 490 ${x+145} 570 Q ${x+110} 670 ${x} 600 Z`,
             fill: "#228B22"
@@ -573,8 +691,11 @@ function iniciarGirasoles() {
         }, "girasol-trazo", retraso + 2);
 
         // Pétalos
+
         for (let i = 0; i < 16; i++) {
+
             const angulo = (Math.PI * 2 * i) / 16;
+
             const px = x + Math.cos(angulo) * 85 * escala;
             const py = y + Math.sin(angulo) * 85 * escala;
 
@@ -588,9 +709,11 @@ function iniciarGirasoles() {
                 "stroke-width": 2,
                 transform: `rotate(${angulo * 180 / Math.PI} ${px} ${py})`
             }, "girasol-relleno", retraso + 2.5 + i * 0.08);
+
         }
 
         // Centro de la flor
+
         crearElemento("circle", {
             cx: x,
             cy: y,
@@ -604,64 +727,108 @@ function iniciarGirasoles() {
             r: 34 * escala,
             fill: "#654321"
         }, "girasol-relleno", retraso + 4.2);
+
     });
+
 }
 
-/* =========================================
+
+/* =========================
    PÉTALOS BLANCOS
-========================================= */
+========================= */
 
 function crearPetalos() {
+
     const contenedor = document.getElementById("petalos");
 
     if (!contenedor || contenedor.dataset.creados === "si") return;
+
     contenedor.dataset.creados = "si";
 
     for (let i = 0; i < 28; i++) {
+
         const petalo = document.createElement("div");
+
         petalo.className = "petalo";
 
         petalo.style.left = Math.random() * 100 + "%";
-        petalo.style.animationDuration = (6 + Math.random() * 8) + "s";
-        petalo.style.animationDelay = (Math.random() * 8) + "s";
-        petalo.style.opacity = 0.4 + Math.random() * 0.5;
-        petalo.style.transform = `scale(${0.5 + Math.random()})`;
+
+        petalo.style.animationDuration =
+            (6 + Math.random() * 8) + "s";
+
+        petalo.style.animationDelay =
+            (Math.random() * 8) + "s";
+
+        petalo.style.opacity =
+            0.4 + Math.random() * 0.5;
+
+        petalo.style.transform =
+            `scale(${0.5 + Math.random()})`;
 
         contenedor.appendChild(petalo);
+
     }
+
 }
 
-/* =========================================
+
+/* =========================
    CUENTA REGRESIVA
-========================================= */
+========================= */
 
 // 27 de noviembre de 2026 a las 6:00 p. m.
-const fechaEvento = new Date(2026, 10, 27, 18, 0, 0).getTime();
+
+const fechaEvento =
+    new Date(2026, 10, 27, 18, 0, 0).getTime();
 
 function actualizarContador() {
+
     const diferencia = fechaEvento - Date.now();
 
     if (diferencia <= 0) {
+
         document.getElementById("dias").textContent = "0";
         document.getElementById("horas").textContent = "00";
         document.getElementById("minutos").textContent = "00";
         document.getElementById("segundos").textContent = "00";
+
         return;
+
     }
 
-    const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-    const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
-    const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
-    const segundos = Math.floor((diferencia / 1000) % 60);
+    const dias = Math.floor(
+        diferencia / (1000 * 60 * 60 * 24)
+    );
+
+    const horas = Math.floor(
+        (diferencia / (1000 * 60 * 60)) % 24
+    );
+
+    const minutos = Math.floor(
+        (diferencia / (1000 * 60)) % 60
+    );
+
+    const segundos = Math.floor(
+        (diferencia / 1000) % 60
+    );
 
     document.getElementById("dias").textContent = dias;
-    document.getElementById("horas").textContent = String(horas).padStart(2, "0");
-    document.getElementById("minutos").textContent = String(minutos).padStart(2, "0");
-    document.getElementById("segundos").textContent = String(segundos).padStart(2, "0");
+
+    document.getElementById("horas").textContent =
+        String(horas).padStart(2, "0");
+
+    document.getElementById("minutos").textContent =
+        String(minutos).padStart(2, "0");
+
+    document.getElementById("segundos").textContent =
+        String(segundos).padStart(2, "0");
+
 }
 
 actualizarContador();
+
 setInterval(actualizarContador, 1000);
+
 </script>
 
 </body>
