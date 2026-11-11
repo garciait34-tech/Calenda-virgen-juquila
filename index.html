@@ -66,17 +66,17 @@ body {
 }
 
 .girasol-trazo {
-    fill: none;
+   fill: none;
     stroke-linecap: round;
     stroke-linejoin: round;
-    stroke-dasharray: 1200;
-    stroke-dashoffset: 1200;
-    animation: dibujar 1.8s ease forwards;
+    stroke-dasharray: 1600;
+    stroke-dashoffset: 1600;
+    animation: dibujar 2.8s ease forwards;
 }
 
 .girasol-relleno {
     opacity: 0;
-    animation: aparecer .7s ease forwards;
+    animation: aparecer .8s ease forwards;
 }
 
 @keyframes dibujar {
@@ -130,14 +130,26 @@ body {
 
 #zonaMapa {
     position: absolute;
-    top: 80%;
-    left: 50%;
-    width: 35%;
-    height: 13%;
+    top: 74%;
+    left: 58%;
     transform: translate(-50%, -50%);
-    display: block;
+
+    width: 65%;
+    height: 18%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #f5dc83;
+    font-family: Georgia, serif;
+    font-size: clamp(13px, 2.5vw, 25px);
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    letter-spacing: 1px;
+
     z-index: 30;
-    cursor: pointer;
 }
 
 /* CRONÓMETRO */
@@ -371,11 +383,12 @@ body {
         <!-- ENLACE GOOGLE MAPS -->
 
         <a id="zonaMapa"
-           href="https://maps.app.goo.gl/kqMWNPBSazHsArkt8"
-           target="_blank"
-           rel="noopener noreferrer"
-           aria-label="Abrir ubicación en Google Maps">
-        </a>
+           <a id="zonaMapa"
+   href="https://maps.app.goo.gl/kqMWNPBSazHsArkt8"
+   target="_blank"
+   rel="noopener noreferrer">
+   VER UBICACIÓN EN GOOGLE MAPS
+</a>
 
     </section>
 
@@ -466,30 +479,131 @@ function abrirInvitacion() {
         console.log("No se pudo iniciar la música.");
     });
 
-    iniciarGirasoles();
+ function iniciarGirasoles() {
 
-    setTimeout(function() {
+   
+    const svg = document.getElementById("animacionGirasoles");
 
-        portada.classList.add("oculta");
+    if (svg.dataset.iniciado) return;
 
-        setTimeout(function() {
+    svg.dataset.iniciado = "si";
 
-            contenido.classList.add("visible");
+    const NS = "http://www.w3.org/2000/svg";
 
-            crearPetalos();
+    function crearElemento(tipo, atributos, clase, retraso) {
 
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
+        const elemento = document.createElementNS(NS, tipo);
 
-        }, 700);
+        Object.entries(atributos).forEach(function([nombre, valor]) {
+            elemento.setAttribute(nombre, valor);
+        });
 
-        setTimeout(function() {
-            portada.style.display = "none";
-        }, 1100);
+        elemento.setAttribute("class", clase);
+        elemento.style.animationDelay = retraso + "s";
 
-    }, 6500);
+        svg.appendChild(elemento);
+    }
+
+    /* TRES GIRASOLES GRANDES */
+
+    const flores = [
+        { x: 170, y: 290, escala: 1.35 },
+        { x: 500, y: 230, escala: 1.55 },
+        { x: 830, y: 290, escala: 1.35 }
+    ];
+
+    flores.forEach(function(flor, indice) {
+
+        const x = flor.x;
+        const y = flor.y;
+        const escala = flor.escala;
+        const retraso = indice * .4;
+
+        /* TALLO QUE NACE DESDE ABAJO */
+
+        crearElemento("path", {
+            d: `M ${x} 1050
+                C ${x-35} 850,
+                  ${x+35} 650,
+                  ${x} ${y+65}`,
+            stroke: "#228B22",
+            "stroke-width": 18 * escala
+        }, "girasol-trazo", retraso);
+
+        /* HOJA IZQUIERDA */
+
+        crearElemento("path", {
+            d: `M ${x} 760
+                Q ${x-100} 660 ${x-145} 735
+                Q ${x-110} 830 ${x} 760 Z`,
+            fill: "#228B22"
+        }, "girasol-relleno", retraso + 1.5);
+
+        /* NERVADURA IZQUIERDA */
+
+        crearElemento("path", {
+            d: `M ${x} 760 Q ${x-75} 735 ${x-125} 735`,
+            stroke: "#145214",
+            "stroke-width": 4
+        }, "girasol-trazo", retraso + 1.6);
+
+        /* HOJA DERECHA */
+
+        crearElemento("path", {
+            d: `M ${x} 600
+                Q ${x+100} 490 ${x+145} 570
+                Q ${x+110} 670 ${x} 600 Z`,
+            fill: "#228B22"
+        }, "girasol-relleno", retraso + 1.9);
+
+        /* NERVADURA DERECHA */
+
+        crearElemento("path", {
+            d: `M ${x} 600 Q ${x+80} 585 ${x+125} 570`,
+            stroke: "#145214",
+            "stroke-width": 4
+        }, "girasol-trazo", retraso + 2);
+
+        /* PÉTALOS GRANDES */
+
+        for (let i = 0; i < 16; i++) {
+
+            const angulo = (Math.PI * 2 * i) / 16;
+
+            const px = x + Math.cos(angulo) * 85 * escala;
+            const py = y + Math.sin(angulo) * 85 * escala;
+
+            crearElemento("ellipse", {
+                cx: px,
+                cy: py,
+                rx: 48 * escala,
+                ry: 19 * escala,
+                fill: "#FFD700",
+                stroke: "#E6B800",
+                "stroke-width": 2,
+                transform: `rotate(${angulo * 180 / Math.PI} ${px} ${py})`
+            }, "girasol-relleno", retraso + 2.5 + i * .08);
+
+        }
+
+        /* CENTRO CAFÉ */
+
+        crearElemento("circle", {
+            cx: x,
+            cy: y,
+            r: 59 * escala,
+            fill: "#8B4513"
+        }, "girasol-relleno", retraso + 4);
+
+        crearElemento("circle", {
+            cx: x,
+            cy: y,
+            r: 34 * escala,
+            fill: "#654321"
+        }, "girasol-relleno", retraso + 4.2);
+
+    });
+
 }
 
 /* BOTÓN MÚSICA */
