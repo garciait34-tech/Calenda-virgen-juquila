@@ -462,7 +462,7 @@ body {
 
 let invitacionAbierta = false;
 
-function abrirInvitacion() {
+/* ABRIR INVITACIÓN Y HACER TRANSICIÓN */  let invitacionAbierta = false;  function abrirInvitacion() {      if (invitacionAbierta) return;      invitacionAbierta = true;      const musica = document.getElementById("musica");     const portada = document.getElementById("portada");     const contenido = document.getElementById("contenido");      // INICIAR MÚSICA     musica.currentTime = 0;     musica.volume = 1;      musica.play().catch(function() {         console.log("No se pudo iniciar la música");     });      // DIBUJAR GIRASOLES     try {         iniciarGirasoles();     } catch(error) {         console.error("Error en los girasoles:", error);     }      // ESPERAR ANIMACIÓN     setTimeout(function() {          // DESVANECER PORTADA         portada.classList.add("oculta");          // MOSTRAR INVITACIÓN         setTimeout(function() {              contenido.classList.add("visible");              crearPetalos();              window.scrollTo({                 top: 0,                 behavior: "smooth"             });          }, 700);          // RETIRAR PORTADA         setTimeout(function() {             portada.style.display = "none";         }, 1100);      }, 6500);  } {
 
     if (invitacionAbierta) return;
 
