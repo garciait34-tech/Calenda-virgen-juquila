@@ -278,15 +278,60 @@ body {
         bottom: 12px;
     }
 
-    #zonaMapa {
-        font-size: clamp(11px, 3vw, 17px);
-        width: 68%;
+   /* BOTÓN DE PUNTO DE REUNIÓN */
+
+#zonaMapa {
+    position: absolute;
+    top: 82%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 85%;
+    height: auto;
+    padding: 15px 10px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 0, 0, 0.75);
+    border: 2px solid #d5b66f;
+    border-radius: 18px;
+
+    color: #f5df9b;
+    text-decoration: none;
+    text-align: center;
+    z-index: 10;
+}
+
+/* PIN ANIMADO */
+
+.pin-animado {
+    font-size: 48px;
+    display: block;
+    animation: brincarPin 1s infinite ease-in-out;
+}
+
+@keyframes brincarPin {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-12px);
     }
 }
-</style>
-</head>
 
-<body>
+#zonaMapa strong {
+    font-size: 21px;
+    margin-top: 5px;
+}
+
+.texto-mapa {
+    font-size: 12px;
+    margin-top: 8px;
+}
 
 <!-- PORTADA -->
 <div id="portada" role="button" aria-label="Abrir invitación">
