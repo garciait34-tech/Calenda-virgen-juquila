@@ -328,7 +328,44 @@ body {
            href="https://maps.app.goo.gl/kqMWNPBSazHsArkt8"
            target="_blank"
            rel="noopener noreferrer">
-            TOCA AQUI PARA VER LA UBICACIÓN
+            <span class="pin-animado">📍</span>
+
+    <strong>PUNTO DE REUNIÓN</strong>
+
+    <span class="texto-mapa">
+       TOCA AQUÍ PARA VER LA UBICACIÓN
+    </span>
+/* PIN DE UBICACIÓN ANIMADO */
+
+.pin-animado {
+    display: block;
+    font-size: 48px;
+    animation: brincarPin 1s infinite ease-in-out;
+    transform-origin: bottom center;
+}
+
+@keyframes brincarPin {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+#zonaMapa strong {
+    font-size: 23px;
+    display: block;
+    margin-top: 8px;
+}
+
+.texto-mapa {
+    display: block;
+    font-size: 13px;
+    margin-top: 8px;
+}
+</a>
         </a>
     </section>
 
