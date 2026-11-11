@@ -36,8 +36,9 @@ body {
     cursor: pointer;
     overflow: hidden;
     opacity: 1;
-    transform: scale(1);
-    transition: opacity 1s ease, transform 1s ease;
+    visibility: visible;
+    transition: opacity 1.2s ease, transform 1.2s ease;
+    touch-action: manipulation;
 }
 
 #portada > img {
@@ -89,12 +90,14 @@ body {
     position: relative;
     width: 100%;
     opacity: 0;
+    visibility: hidden;
     transform: translateY(25px);
-    transition: opacity 1s ease, transform 1s ease;
+    transition: opacity 1.2s ease, transform 1.2s ease;
 }
 
 #contenido.visible {
     opacity: 1;
+    visibility: visible;
     transform: translateY(0);
 }
 
@@ -248,7 +251,7 @@ body {
     box-shadow: 0 4px 12px rgba(0,0,0,.3);
 }
 
-/* PÉTALOS BLANCOS */
+/* PÉTALOS */
 #petalos {
     position: fixed;
     inset: 0;
@@ -316,13 +319,14 @@ body {
 
 <body>
 
-<!-- PORTADA INICIAL -->
-<div id="portada" onclick="abrirInvitacion()" role="button">
+<!-- PORTADA -->
+<div id="portada" role="button" aria-label="Abrir invitación">
     <img src="inicio.jpg" alt="Portada de la Calenda">
 
     <svg id="animacionGirasoles"
          viewBox="0 0 1000 1000"
-         preserveAspectRatio="xMidYMid meet">
+         preserveAspectRatio="xMidYMid meet"
+         aria-hidden="true">
     </svg>
 </div>
 
@@ -331,7 +335,9 @@ body {
     <source src="musica.mp3" type="audio/mpeg">
 </audio>
 
-<button id="botonMusica" type="button" onclick="toggleMusica(event)">
+<button id="botonMusica" type="button"
+        onclick="toggleMusica(event)"
+        aria-label="Reproducir o pausar música">
     ♫
 </button>
 
@@ -341,14 +347,12 @@ body {
 <!-- INVITACIÓN -->
 <main id="contenido">
 
-    <!-- IMAGEN DE CONTEXTO -->
     <section class="seccion">
         <img src="contexto.jpg" alt="Invitación y madrinas de la Calenda">
     </section>
 
     <!-- DETALLES Y UBICACIÓN -->
     <section class="seccion" id="seccionDetalles">
-
         <img src="detalles.jpg" alt="Detalles de la celebración">
 
         <a id="zonaMapa"
@@ -357,24 +361,17 @@ body {
            rel="noopener noreferrer">
             VER UBICACIÓN EN GOOGLE MAPS
         </a>
-
     </section>
 
     <!-- CRONÓMETRO -->
     <section class="seccion" id="seccionCronometro">
-
         <img src="cronometro.jpg" alt="Cuenta regresiva">
 
         <div class="cronometro">
-
             <h2>¡La espera está por terminar!</h2>
-
-            <p>
-                Nos vemos el 27 de noviembre de 2026 a las 6:00 p. m.
-            </p>
+            <p>Nos vemos el 27 de noviembre de 2026 a las 6:00 p. m.</p>
 
             <div class="contador">
-
                 <div class="bloque">
                     <span class="numero" id="dias">0</span>
                     <span class="texto">DÍAS</span>
@@ -394,18 +391,14 @@ body {
                     <span class="numero" id="segundos">00</span>
                     <span class="texto">SEGUNDOS</span>
                 </div>
-
             </div>
         </div>
     </section>
 
     <!-- CRÉDITOS -->
     <footer class="creditos">
-
         <p>INVITACIÓN CREADA POR</p>
-
         <p class="marca">✦ MOON GRAFIK ✦</p>
-
         <p>
             WhatsApp:
             <a href="https://wa.me/524426070366"
@@ -414,110 +407,101 @@ body {
                 44 26 07 03 66
             </a>
         </p>
-
     </footer>
 
 </main>
 
 <script>
-
-/* ABRIR INVITACIÓN */
+/* =========================================
+   ABRIR INVITACIÓN - TRANSICIÓN CORREGIDA
+========================================= */
 
 let invitacionAbierta = false;
 
 function abrirInvitacion() {
-
     if (invitacionAbierta) return;
 
     invitacionAbierta = true;
 
-    const musica = document.getElementById("musica");
     const portada = document.getElementById("portada");
     const contenido = document.getElementById("contenido");
+    const musica = document.getElementById("musica");
+    const boton = document.getElementById("botonMusica");
 
+    // La música se intenta reproducir directamente al tocar.
     musica.currentTime = 0;
     musica.volume = 1;
 
-    musica.play().then(function() {
-        document.getElementById("botonMusica").textContent = "♫";
-    }).catch(function(error) {
-        console.log("El navegador no pudo iniciar la música:", error);
+    musica.play().then(() => {
+        boton.textContent = "♫";
+    }).catch(error => {
+        console.log("No se pudo iniciar la música:", error);
     });
 
+    // Iniciar los girasoles.
     iniciarGirasoles();
 
-    setTimeout(function() {
-
+    // Comenzar la transición inmediatamente.
+    requestAnimationFrame(() => {
         portada.classList.add("oculta");
+        contenido.classList.add("visible");
+    });
 
-        setTimeout(function() {
+    // Crear pétalos.
+    crearPetalos();
 
-            contenido.classList.add("visible");
-
-            crearPetalos();
-
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-
-        }, 700);
-
-        setTimeout(function() {
-            portada.style.display = "none";
-        }, 1100);
-
-    }, 6500);
+    // Retirar la portada después del desvanecimiento.
+    setTimeout(() => {
+        portada.style.display = "none";
+    }, 1300);
 }
 
-/* BOTÓN DE MÚSICA */
+// Conectar el toque y el clic a la portada.
+document.getElementById("portada").addEventListener("click", abrirInvitacion);
+
+/* =========================================
+   BOTÓN DE MÚSICA
+========================================= */
 
 function toggleMusica(event) {
-
     event.stopPropagation();
 
     const musica = document.getElementById("musica");
     const boton = document.getElementById("botonMusica");
 
     if (musica.paused) {
-
-        musica.play().then(function() {
+        musica.play().then(() => {
             boton.textContent = "♫";
-        }).catch(function(error) {
+        }).catch(error => {
             console.log("No se pudo reproducir la música:", error);
         });
-
     } else {
-
         musica.pause();
         boton.textContent = "♪";
-
     }
 }
 
-/* GIRASOLES GRANDES */
+/* =========================================
+   GIRASOLES GRANDES
+========================================= */
 
 function iniciarGirasoles() {
-
     const svg = document.getElementById("animacionGirasoles");
 
     if (!svg || svg.dataset.iniciado === "si") return;
-
     svg.dataset.iniciado = "si";
 
     const NS = "http://www.w3.org/2000/svg";
 
     function crearElemento(tipo, atributos, clase, retraso) {
-
         const elemento = document.createElementNS(NS, tipo);
 
-        Object.entries(atributos).forEach(function([nombre, valor]) {
+        Object.entries(atributos).forEach(([nombre, valor]) => {
             elemento.setAttribute(nombre, valor);
         });
 
         elemento.setAttribute("class", clase);
         elemento.style.animationDelay = retraso + "s";
-
         svg.appendChild(elemento);
     }
 
@@ -527,23 +511,20 @@ function iniciarGirasoles() {
         { x: 830, y: 290, escala: 1.35 }
     ];
 
-    flores.forEach(function(flor, indice) {
-
+    flores.forEach((flor, indice) => {
         const x = flor.x;
         const y = flor.y;
         const escala = flor.escala;
         const retraso = indice * 0.4;
 
-        /* TALLO DESDE ABAJO */
-
+        // Tallo
         crearElemento("path", {
             d: `M ${x} 1050 C ${x-35} 850, ${x+35} 650, ${x} ${y+65}`,
             stroke: "#228B22",
             "stroke-width": 18 * escala
         }, "girasol-trazo", retraso);
 
-        /* HOJA IZQUIERDA */
-
+        // Hoja izquierda
         crearElemento("path", {
             d: `M ${x} 760 Q ${x-100} 660 ${x-145} 735 Q ${x-110} 830 ${x} 760 Z`,
             fill: "#228B22"
@@ -555,8 +536,7 @@ function iniciarGirasoles() {
             "stroke-width": 4
         }, "girasol-trazo", retraso + 1.6);
 
-        /* HOJA DERECHA */
-
+        // Hoja derecha
         crearElemento("path", {
             d: `M ${x} 600 Q ${x+100} 490 ${x+145} 570 Q ${x+110} 670 ${x} 600 Z`,
             fill: "#228B22"
@@ -568,12 +548,9 @@ function iniciarGirasoles() {
             "stroke-width": 4
         }, "girasol-trazo", retraso + 2);
 
-        /* PÉTALOS GRANDES */
-
+        // Pétalos
         for (let i = 0; i < 16; i++) {
-
             const angulo = (Math.PI * 2 * i) / 16;
-
             const px = x + Math.cos(angulo) * 85 * escala;
             const py = y + Math.sin(angulo) * 85 * escala;
 
@@ -587,11 +564,9 @@ function iniciarGirasoles() {
                 "stroke-width": 2,
                 transform: `rotate(${angulo * 180 / Math.PI} ${px} ${py})`
             }, "girasol-relleno", retraso + 2.5 + i * 0.08);
-
         }
 
-        /* CENTRO CAFÉ */
-
+        // Centro de la flor
         crearElemento("circle", {
             cx: x,
             cy: y,
@@ -605,97 +580,64 @@ function iniciarGirasoles() {
             r: 34 * escala,
             fill: "#654321"
         }, "girasol-relleno", retraso + 4.2);
-
     });
 }
 
-/* PÉTALOS BLANCOS */
+/* =========================================
+   PÉTALOS BLANCOS
+========================================= */
 
 function crearPetalos() {
-
     const contenedor = document.getElementById("petalos");
 
     if (!contenedor || contenedor.dataset.creados === "si") return;
-
     contenedor.dataset.creados = "si";
 
     for (let i = 0; i < 28; i++) {
-
         const petalo = document.createElement("div");
-
         petalo.className = "petalo";
 
         petalo.style.left = Math.random() * 100 + "%";
-
-        petalo.style.animationDuration =
-            (6 + Math.random() * 8) + "s";
-
-        petalo.style.animationDelay =
-            (Math.random() * 8) + "s";
-
-        petalo.style.opacity =
-            0.4 + Math.random() * 0.5;
-
-        petalo.style.transform =
-            `scale(${0.5 + Math.random()})`;
+        petalo.style.animationDuration = (6 + Math.random() * 8) + "s";
+        petalo.style.animationDelay = (Math.random() * 8) + "s";
+        petalo.style.opacity = 0.4 + Math.random() * 0.5;
+        petalo.style.transform = `scale(${0.5 + Math.random()})`;
 
         contenedor.appendChild(petalo);
-
     }
 }
 
-/* CUENTA REGRESIVA */
+/* =========================================
+   CUENTA REGRESIVA
+========================================= */
 
-const fechaEvento = new Date(
-    2026, 10, 27, 18, 0, 0
-).getTime();
+// 27 de noviembre de 2026 a las 6:00 p. m.
+const fechaEvento = new Date(2026, 10, 27, 18, 0, 0).getTime();
 
 function actualizarContador() {
-
     const diferencia = fechaEvento - Date.now();
 
     if (diferencia <= 0) {
-
         document.getElementById("dias").textContent = "0";
         document.getElementById("horas").textContent = "00";
         document.getElementById("minutos").textContent = "00";
         document.getElementById("segundos").textContent = "00";
-
         return;
     }
 
-    const dias = Math.floor(
-        diferencia / (1000 * 60 * 60 * 24)
-    );
-
-    const horas = Math.floor(
-        (diferencia / (1000 * 60 * 60)) % 24
-    );
-
-    const minutos = Math.floor(
-        (diferencia / (1000 * 60)) % 60
-    );
-
-    const segundos = Math.floor(
-        (diferencia / 1000) % 60
-    );
+    const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+    const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
+    const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
+    const segundos = Math.floor((diferencia / 1000) % 60);
 
     document.getElementById("dias").textContent = dias;
-
-    document.getElementById("horas").textContent =
-        String(horas).padStart(2, "0");
-
-    document.getElementById("minutos").textContent =
-        String(minutos).padStart(2, "0");
-
-    document.getElementById("segundos").textContent =
-        String(segundos).padStart(2, "0");
+    document.getElementById("horas").textContent = String(horas).padStart(2, "0");
+    document.getElementById("minutos").textContent = String(minutos).padStart(2, "0");
+    document.getElementById("segundos").textContent = String(segundos).padStart(2, "0");
 }
 
 actualizarContador();
-
 setInterval(actualizarContador, 1000);
-
 </script>
 
 </body>
