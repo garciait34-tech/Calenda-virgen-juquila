@@ -70,20 +70,142 @@ body {
 }
 
 #animacionGirasoles {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
+  function iniciarGirasoles() {
 
-#animacionGirasoles .trazo {
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 1000;
-  stroke-dashoffset: 1000;
-  animation: dibujar 2s ease forwards;
+    const svg = document.getElementById("animacionGirasoles");
+
+    if (svg.dataset.iniciado) return;
+    svg.dataset.iniciado = "si";
+
+    const NS = "http://www.w3.org/2000/svg";
+
+    function crearElemento(tipo, atributos, clase, retraso, duracion) {
+
+        const elemento = document.createElementNS(NS, tipo);
+
+        Object.entries(atributos).forEach(([nombre, valor]) => {
+            elemento.setAttribute(nombre, valor);
+        });
+
+        elemento.setAttribute("class", clase);
+        elemento.style.animationDelay = retraso + "s";
+
+        if (duracion) {
+            elemento.style.animationDuration = duracion + "s";
+        }
+
+        svg.appendChild(elemento);
+        return elemento;
+    }
+
+    /* GIRASOLES MÁS GRANDES Y SEPARADOS */
+
+    const flores = [
+        { x: 190, y: 390, escala: 1.35 },
+        { x: 500, y: 330, escala: 1.55 },
+        { x: 810, y: 390, escala: 1.35 }
+    ];
+
+    flores.forEach(function(flor, indice) {
+
+        const x = flor.x;
+        const y = flor.y;
+        const escala = flor.escala;
+        const inicio = indice * 0.65;
+
+        /* TALLO */
+
+        crearElemento("path", {
+            d: `M ${x} 1000 Q ${x-15} 700 ${x} ${y+35}`,
+            stroke: "#228B22",
+            "stroke-width": 16 * escala,
+            fill: "none"
+        }, "girasol-trazo", inicio, 2.2);
+
+        /* HOJA IZQUIERDA */
+
+        crearElemento("path", {
+            d: `M ${x} 760 Q ${x-100} 650 ${x-150} 730 Q ${x-110} 820 ${x} 760 Z`,
+            fill: "#278b32"
+        }, "girasol-relleno", inicio + 1.5);
+
+        /* HOJA DERECHA */
+
+        crearElemento("path", {
+            d: `M ${x} 650 Q ${x+100} 540 ${x+150} 620 Q ${x+110} 710 ${x} 650 Z`,
+            fill: "#278b32"
+        }, "girasol-relleno", inicio + 1.8);
+
+        /* PÉTALOS FORMÁNDOSE EN SU LUGAR */
+
+        for (let i = 0; i < 16; i++) {
+
+            const angulo = (Math.PI * 2 * i) / 16;
+
+            const px = x + Math.cos(angulo) * 76 * escala;
+            const py = y + Math.sin(angulo) * 76 * escala;
+
+            crearElemento("ellipse", {
+                cx: px,
+                cy: py,
+                rx: 43 * escala,
+                ry: 19 * escala,
+                fill: "#FFD700",
+                transform: `rotate(${angulo * 180 / Math.PI} ${px} ${py})`
+            }, "girasol-relleno", inicio + 2.5 + i * 0.10, 0.65);
+        }
+
+        /* CENTRO DEL GIRASOL */
+
+        crearElemento("circle", {
+            cx: x,
+            cy: y,
+            r: 55 * escala,
+            fill: "#8B4513"
+        }, "girasol-relleno", inicio + 4.3);
+
+        crearElemento("circle", {
+            cx: x,
+            cy: y,
+            r: 34 * escala,
+            fill: "#654321"
+        }, "girasol-relleno", inicio + 4.5);
+
+    });
+
+    /* PEQUEÑOS PÉTALOS QUE CAEN DESPUÉS */
+
+    setTimeout(function() {
+
+        for (let i = 0; i < 24; i++) {
+
+            const x = 80 + Math.random() * 840;
+            const y = 250 + Math.random() * 300;
+
+            const petalo = crearElemento("ellipse", {
+                cx: x,
+                cy: y,
+                rx: 12,
+                ry: 6,
+                fill: "#FFD700"
+            }, "girasol-relleno", 0, 0.5);
+
+            petalo.animate([
+                {
+                    transform: "translate(0px, 0px) rotate(0deg)",
+                    opacity: 1
+                },
+                {
+                    transform: `translate(${Math.random()*100-50}px, 450px) rotate(300deg)`,
+                    opacity: 0
+                }
+            ], {
+                duration: 3500 + Math.random() * 2000,
+                fill: "forwards"
+            });
+        }
+
+    }, 5500);
 }
 
 #animacionGirasoles .relleno {
